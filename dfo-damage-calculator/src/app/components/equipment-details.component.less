@@ -1,0 +1,63 @@
+@import "../vars";
+
+.equipment-preview-hover-container {
+    font-size: 13px;
+    width: 200px;
+    min-height: 50px;
+    background-color: rgba(0,0,0,0.8);
+    color: #eee;
+    padding: 6px;
+    text-shadow: 1px 0 0 black, 0 1px 0 black, -1px 0 0 black, 0 -1px 0 black;
+    border: 2px solid grey;
+    border-radius: 2px;
+    hr {
+        border-color: grey;
+    }
+}
+
+.equipment-details-title {
+    min-height: 38px;
+    margin-bottom: 6px;
+    .dfo-icon {
+        margin-right: 8px;
+    }
+}
+
+.durability-bar {
+    display: inline-block;
+    margin: 3px 5px;
+    width: 33px;
+    height: 3px;
+    background-color: @color-yellow;
+}
+
+.highlight-text, .detailed-description-text {
+    color: @color-blue;
+}
+
+.rarity-common-text { color: @color-white; }
+.rarity-uncommon-text { color: @color-blue; }
+.rarity-rare-text { color: @color-purple; }
+.rarity-unique-text { color: @color-magenta; }
+.rarity-chronicle-text { color: @color-chronicle-red; }
+.rarity-legendary-text { color: @color-orange; }
+.rarity-epic-text { color: @color-goldenrod; }
+
+.quality-superior-text { color: @color-yellow; }
+.quality-exceptional-text { color: @color-yellow; }
+.quality-ordinary-text { color: @color-blue; }
+.quality-weak-text { color: @color-negative; }
+.quality-inferior-text { color: @color-negative; }
+
+.boost-text { color: @color-blue; }
+.refined-text { color: @color-purple; }
+.enchantment-text { color: @color-turquoise; }
+.amplified-text { color: @color-magenta; }
+
+.faded-text { color: @color-faded; }
+.negative-text { color: @color-negative; }
+.highlight-negative-text { color: @color-red; }
+.info-text {
+    color: @color-green;
+    text-align: center;
+}
