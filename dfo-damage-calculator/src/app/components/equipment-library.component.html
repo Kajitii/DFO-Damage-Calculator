@@ -1,0 +1,35 @@
+<div class="equipment-library">
+    <div class="library container">
+        <div class="form-row">
+            <div class="form-col-25"><label for="newname">Name:</label></div><!--
+            --><div class="form-col-75"><input id="newname" [(ngModel)]="equipmentName" type="text"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-col-40"><label for="newtype">Type:</label></div><!--
+            --><div class="form-col-60"><select id="newtype" [(ngModel)]="equipmentType" (change)="onMajorTypeChange()">
+                <option *ngFor="let type of itemTypes" [ngValue]="type">{{type.displayName}}</option>
+            </select></div>
+        </div>
+        <div *ngIf="equipmentType && equipmentType.values" class="form-row">
+            <div class="form-col-40"><label for="newsubtype1">Subtype 1:</label></div><!--
+            --><div class="form-col-60"><select id="newsubtype1" [(ngModel)]="equipmentSubtype1" (change)="onSubtypeOneChange()">
+                <option *ngFor="let type of equipmentType.values" [ngValue]="type">{{type.displayName || type}}</option>
+            </select></div>
+        </div>
+        <div *ngIf="equipmentSubtype1 && equipmentSubtype1.values" class="form-row">
+            <div class="form-col-40"><label for="newsubtype2">Subtype 2:</label></div><!--
+            --><div class="form-col-60"><select id="newsubtype2" [(ngModel)]="equipmentSubtype2">
+                <option *ngFor="let type of equipmentSubtype1.values" [value]="type">{{type}}</option>
+            </select></div>
+        </div>
+        <input type="button" value="Create" (click)="onCreate()">
+        <div>
+            <ul>
+                <li *ngFor="let str of foobar">{{str}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <equipment-editor [equip]="equipment"></equipment-editor>
+    </div>
+</div>

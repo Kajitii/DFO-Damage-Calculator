@@ -13,14 +13,19 @@ import { Utils } from '../utils';
 export class WeaponDetails implements OnInit {
     @Input() equip: WeaponItem;
     itemRarities: string[] = this.getItemRarities();
+    weaponSpeeds: string[] = this.getWeaponSpeeds();
 
     constructor() { }
 
     ngOnInit() {
-        console.log("Initialize the facts window!");
+        
     }
 
     getItemRarities(): string[] {
         return Utils.getEnumNames(Constants.itemRarity);
+    }
+    getWeaponSpeeds(): string[] {
+        let speeds: string[] = Utils.getEnumNames(Constants.weaponSpeed);
+        return speeds.map(t => t.humanize());
     }
 }

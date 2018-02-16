@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { EquipmentItem } from '../models/equipment-item';
-import { WeaponItem } from '../models/weapon-item';
 
 import { Constants } from '../constants';
 import { Utils } from '../utils';
@@ -8,16 +7,15 @@ import { Utils } from '../utils';
 @Component({
     selector: 'equipment-editor',
     templateUrl: './equipment-editor.component.html',
-    styleUrls: ['./equipment-editor.component.less']
+    styleUrls: ['./equipment-editor.component.less', 'forms.less']
 })
 
 export class EquipmentEditor implements OnInit {
     @Input() equip: EquipmentItem;
     classCategories: string[] = this.getClassCategories();
     itemRarities: string[] = this.getItemRarities();
-    itemTypes: string[] = this.getItemTypes();
-    itemSubtypes1: string[] = this.getItemSubtypes();
     amplificationTypes: string[] = this.getAmplificationTypes();
+    weaponSpeeds: string[] = this.getWeaponSpeeds();
 
     ampType: Constants.amplification;
     ampTypeStored: boolean = false;
@@ -25,8 +23,7 @@ export class EquipmentEditor implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        this.equip = new WeaponItem(Constants.SAVIOR_ZANBATO);
-        console.log("Initialize the editor!");
+
     }
 
     getClassCategories(): string[] {
@@ -36,16 +33,13 @@ export class EquipmentEditor implements OnInit {
     getItemRarities(): string[] {
         return Utils.getEnumNames(Constants.itemRarity);
     }
-    getItemTypes(): string[] {
-        let types: string[] = Object.keys(Constants.equipmentSubType);
-        return types.map(t => t.humanize());
-    }
-    getItemSubtypes(): string[] {
-        return [];
-    }
     getAmplificationTypes(): string[] {
         let types: string[] = Object.keys(Constants.amplification);
         return types;
+    }
+    getWeaponSpeeds(): string[] {
+        let speeds: string[] = Utils.getEnumNames(Constants.weaponSpeed);
+        return speeds.map(t => t.humanize());
     }
 
     onRarityChange(value: Constants.itemRarity): void {
@@ -63,6 +57,10 @@ export class EquipmentEditor implements OnInit {
             this.ampTypeStored = false;
         }
     }
+    onLevelChange(): void {
+        this.equip.exorcism = this.equip.baseExorcism();
+    }
+
     toggleCollapse(event: Event): void {
         console.log(event);
     }

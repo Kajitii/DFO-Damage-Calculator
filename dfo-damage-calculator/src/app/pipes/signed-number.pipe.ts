@@ -10,6 +10,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({name: 'signednumber'})
 export class SignedNumberPipe implements PipeTransform {
     transform(value: number | string): string {
-        return value > 0 ? '+' + value : '' + value;
+        return value >= 0 ? '+' + value : '' + value;
     }
 }

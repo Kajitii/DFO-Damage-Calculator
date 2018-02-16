@@ -129,6 +129,7 @@ export class EquipmentItem {
     enchantment:object;
     boost_level:number;
     amplification:Amplification;
+    bonus_dimensional_stat:number;
     refine_level:number;
     unsealed_options:number; //magic-sealed items
     gems:number; //Insignia
@@ -147,13 +148,11 @@ export class EquipmentItem {
     durability:number;
     price:number;
 
-    zeebarf: string[];
-
     constructor(equip:object) {
 
         this.icon = equip['icon'];
         this.name = equip['name'];
-        this.rarity = equip['rarity'] || 'Common';
+        this.rarity = equip['rarity'] || Constants.itemRarity.Common;
         this.quality = equip['quality'];
         this.level = equip['level'];
         this.type = equip['type'];
@@ -256,6 +255,7 @@ export class EquipmentItem {
         this.enchantment = equip['enchantment'];
         this.boost_level = equip['boost_level'] || 0;
         this.amplification = equip['amplification'] || 'None';
+        this.bonus_dimensional_stat = equip['bonus_dimensional_stat'] || 0;
         this.refine_level = equip['refine_level'] || 0;
         this.set_effect_id = equip['set_effect_id'];
     
@@ -284,7 +284,6 @@ export class EquipmentItem {
                 a.push(false);
             }
         }
-        console.log(a);
         return a;
     }
 
@@ -328,6 +327,26 @@ export class EquipmentItem {
     /**************************
      * Form functions
      **************************/
+
+    public isWeapon(): boolean {
+        return this.type === 'Weapon';
+    }
+
+    public isArmor(): boolean {
+        return this.type === 'Armor';
+    }
+
+    public isAccessory(): boolean {
+        return this.type === 'Accessory';
+    }
+
+    public isSpecialAccessory(): boolean {
+        return this.type === 'Special Accessory';
+    }
+
+    public isAmplified(): boolean {
+        return this.amplification !== Constants.amplification.None;
+    }
 
     /**************************
      * Base stat calculations
@@ -385,48 +404,41 @@ export class EquipmentItem {
      **************************/
 
     public totalPhysicalAttack(): number {
-        let c: number = 1 + this.strength / 250;
-        let n: number = this.physical_attack + this.bonusPhysicalAttack();
-        return n * c;
+        return (1 + this.strength * Constants.strDamageCoefficient) * this.physical_attack;
     }
 
     public totalMagicalAttack(): number {
-        let c: number = 1 + this.intelligence / 250;
-        let n: number = this.magical_attack + this.bonusMagicalAttack();
-        return n * c;
+        return (1 + this.intelligence * Constants.intDamageCoefficient) * this.magical_attack;
     }
 
     public totalIndependentAttack(): number {
-        return this.independent_attack + this.bonusIndependentAttack();
+        return this.independent_attack;
     }
 
-    //TODO
     public totalPhysicalDefense(): number {
-        return this.physical_defense;
+        return this.physical_defense + this.vitality * Constants.vitDefenseCoefficient;
     }
 
-    //TODO
     public totalMagicalDefense(): number {
-        return this.magical_defense;
+        return this.magical_defense + this.spirit * Constants.sprDefenseCoefficient;
     }
 
     public totalMaxHP(vitality: number = this.vitality): number {
-        return (1 + vitality / 250) * this.hp_max;
+        return (1 + vitality * Constants.vitHPMaxCoefficient) * this.hp_max;
     }
 
-    //TODO
     public totalHPRecovery(vitality: number = this.vitality): number {
-        return (1 + vitality / 250) * this.hp_recovery;
+        return (1 + vitality * Constants.vitHPRegenCoefficient) * this.hp_recovery;
     }
 
     //TODO
     public totalMaxMP(spirit: number = this.spirit): number {
-        return (1 + spirit / 250) * this.mp_max;
+        return (1 + spirit * Constants.sprMPMaxCoefficient) * this.mp_max;
     }
 
     //TODO
     public totalMPRecovery(spirit: number = this.spirit): number {
-        return (1 + spirit / 250) * this.mp_recovery;
+        return (1 + spirit * Constants.sprMPRegenCoefficient) * this.mp_recovery;
     }
 
 }

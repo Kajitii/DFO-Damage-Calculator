@@ -9,13 +9,15 @@ import { SignedNumberPipe } from './pipes/signed-number.pipe';
 
 //Components
 import { EquipmentEditor } from './components/equipment-editor.component';
-import { EquipmentLabelInput } from './components/equipment-label-input.component';
+import { EquipmentLibrary } from './components/equipment-library.component';
 import { WeaponDetails } from './components/weapon-details.component';
+import { ArmorDetails } from './components/armor-details.component';
 
 @NgModule({
   declarations: [
+    ArmorDetails,
     EquipmentEditor,
-    //EquipmentLabelInput,
+    EquipmentLibrary,
     ProperCasePipe,
     RoundNumberPipe,
     SignedNumberPipe,
@@ -26,6 +28,6 @@ import { WeaponDetails } from './components/weapon-details.component';
     FormsModule
   ],
   providers: [],
-  bootstrap: [EquipmentEditor]
+  bootstrap: [EquipmentLibrary]
 })
 export class AppModule { }

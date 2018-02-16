@@ -1,0 +1,116 @@
+<div *ngIf="equip" class="equipment-preview-hover-container">
+    <div class="equipment-details-title">
+        <div class="dfo-icon float-left"></div>
+        <span class="rarity-{{(itemRarities[equip.rarity] || 'none') | lowercase}}-text"><span *ngIf="equip.boost_level">{{equip.boost_level | signednumber}} </span>{{equip.name}}</span>
+    </div>
+    <hr />
+    <div class="hover-basic-info">
+        <div class="align-right float-right">
+            <div class="rarity-{{(itemRarities[equip.rarity] || 'none') | lowercase}}-text">{{itemRarities[equip.rarity] || 'Common'}}</div>
+            <div class="subtype-text">{{equip.subtype1}}</div>
+            <div class="type-text">{{equip.subtype2}}</div>
+        </div>
+        <div [class.hide]="!equip.quality" class="quality-text">
+            <span class="quality-{{equip.qualityDescription() | lowercase}}-text">{{equip.qualityDescription()}}</span>
+            <span class="faded-text">({{equip.quality}}%)</span>
+        </div>
+        <div [class.hide]="!equip.physical_defense" class="physical-text">Physical Def. {{equip.totalPhysicalDefense() | roundnumber | signednumber}}</div>
+        <div [class.hide]="!equip.magical_defense" class="magical-text">Magical Def. {{equip.totalMagicalDefense() | roundnumber | signednumber}}</div>
+        <br />
+        <div class="align-right">
+            <div [class.hide]="equip.tradable && !equip.sealable" class="{{equip.tradable ? '' : 'faded-text'}}">{{equip.tradable ? 'Sealed' : 'Untradable'}}</div>
+            <div *ngIf="equip.level" class="level-text">Lv {{equip.level}}</div>
+        </div>
+        <div *ngIf="equip.hasClassRestriction()" class="class-required-text">Class: {{equip.restrictedClasses()}}</div>
+    </div>
+    <hr />
+    <div class="hover-primary-stats">
+        <div *ngIf="equip.physical_defense">Equipment Physical Def. {{equip.physical_defense | signednumber}}</div>
+        <div *ngIf="equip.boost_level && equip.bonus_flat_physical_reduction" class="boost-text">{{equip.boost_level | signednumber}} Physical Reduction: {{equip.bonus_flat_physical_reduction | roundnumber | signednumber}}</div>
+        <div *ngIf="equip.boost_level && equip.bonus_percent_physical_reduction" class="boost-text">{{equip.boost_level | signednumber}} Bonus Reduction: {{equip.bonus_percent_physical_reduction | roundnumber: 2 | signednumber}}%</div>
+        <div *ngIf="equip.magical_defense">Equipment Magical Def. {{equip.magical_defense | signednumber}}</div>
+        <div *ngIf="equip.physical_attack" class="physical-text">Weapon Physical Atk. {{equip.physical_attack | signednumber}}</div>
+        <div *ngIf="equip.magical_attack" class="magical-text">Weapon Magical Atk. {{equip.magical_attack | signednumber}}</div>
+        <div *ngIf="equip.independent_attack" class="independent-text">Independent Attack {{equip.independent_attack | signednumber}}</div>
+        <div *ngIf="equip.strength">Strength {{equip.strength | signednumber}}</div>
+        <div *ngIf="equip.amplification === 'Strength'" class="amplified-text">{{equip.boost_level | signednumber}} Boost: Dimensional Strength {{equip.bonus_dimensional_stat | signednumber}}</div>
+        <div *ngIf="equip.intelligence">Intelligence {{equip.intelligence | signednumber}}</div>
+        <div *ngIf="equip.amplification === 'Intelligence'" class="amplified-text">{{equip.boost_level | signednumber}} Boost: Dimensional Intelligence {{equip.bonus_dimensional_stat | signednumber}}</div>
+        <div *ngIf="equip.vitality">Vitality {{equip.vitality | signednumber}}</div>
+        <div *ngIf="equip.amplification === 'Vitality'" class="amplified-text">{{equip.boost_level | signednumber}} Boost: Dimensional Vitality {{equip.bonus_dimensional_stat | signednumber}}</div>
+        <div *ngIf="equip.spirit">Spirit {{equip.spirit | signednumber}}</div>
+        <div *ngIf="equip.amplification === 'Spirit'" class="amplified-text">{{equip.boost_level | signednumber}} Boost: Dimensional Spirit {{equip.bonus_dimensional_stat | signednumber}}</div>
+    </div>
+    <div class="exorcism-stats">
+        <div *ngIf="equip.exorcism" class="exorcism-text">Exorcism {{equip.exorcism | number: '1.0-0' | signednumber}}</div>
+        <div *ngIf="equip.boost_level" class="boost-text">{{equip.boost_level | signednumber}} Reinforcement: Exorcism {{equip.bonusExorcism() | roundnumber | signednumber}}</div>
+    </div>
+    <br />
+    <div class="basic-miscellaneous-info">
+        <div *ngIf="equip.hp_max" [ngClass]="equip.hp_max > 0 ? 'highlight-text' : 'negative-text'">HP MAX {{equip.hp_max | signednumber}} (Actual {{equip.hp_max}})</div>
+        <div *ngIf="equip.mp_max" [ngClass]="equip.mp_max > 0 ? 'highlight-text' : 'negative-text'">MP MAX {{equip.mp_max | signednumber}} (Actual {{equip.mp_max}})</div>
+        <div *ngIf="equip.hp_recovery" [ngClass]="equip.hp_recovery > 0 ? 'highlight-text' : 'negative-text'">{{equip.hp_recovery | signednumber}} HP per Min. (Actual {{equip.hp_recovery | signednumber}})</div>
+        <div *ngIf="equip.mp_recovery" [ngClass]="equip.mp_recovery > 0 ? 'highlight-text' : 'negative-text'">{{equip.mp_recovery | signednumber}} MP per Min. (Actual {{equip.mp_recovery | signednumber}})</div>
+        <div *ngIf="equip.attack_speed" [ngClass]="equip.attack_speed > 0 ? 'highlight-text' : 'negative-text'">Attack Speed {{equip.attack_speed | signednumber}}%</div>
+        <div *ngIf="equip.move_speed" [ngClass]="equip.move_speed > 0 ? 'highlight-text' : 'negative-text'">Move Speed {{equip.move_speed | signednumber}}%</div>
+        <div *ngIf="equip.cast_speed" [ngClass]="equip.cast_speed > 0 ? 'highlight-text' : 'negative-text'">Casting Speed {{equip.cast_speed | signednumber}}%</div>
+        <div *ngIf="equip.evasion" [ngClass]="equip.evasion > 0 ? 'highlight-text' : 'negative-text'">Evasion Rate {{equip.evasion | signednumber}}%</div>
+        <div *ngIf="equip.fire_resist" [ngClass]="equip.fire_resist > 0 ? 'highlight-text' : 'negative-text'">Fire Resist {{equip.fire_resist | signednumber}}</div>
+        <div *ngIf="equip.shadow_resist" [ngClass]="equip.shadow_resist > 0 ? 'highlight-text' : 'negative-text'">Shadow Resist {{equip.shadow_resist | signednumber}}</div>
+        <div *ngIf="equip.water_resist" [ngClass]="equip.water_resist > 0 ? 'highlight-text' : 'negative-text'">Water Resist {{equip.water_resist | signednumber}}</div>
+        <div *ngIf="equip.light_resist" [ngClass]="equip.light_resist > 0 ? 'highlight-text' : 'negative-text'">Light Resist {{equip.light_resist | signednumber}}</div>
+        <div *ngIf="equip.all_resist" [ngClass]="equip.all_resist > 0 ? 'highlight-text' : 'negative-text'">All Element Resist {{equip.all_resist | signednumber}}</div>
+        <div *ngIf="equip.fire_element" [ngClass]="equip.fire_element > 0 ? 'highlight-text' : 'negative-text'">Fire Damage {{equip.fire_element | signednumber}}</div>
+        <div *ngIf="equip.shadow_element" [ngClass]="equip.shadow_element > 0 ? 'highlight-text' : 'negative-text'">Shadow Damage {{equip.shadow_element | signednumber}}</div>
+        <div *ngIf="equip.water_element" [ngClass]="equip.water_element > 0 ? 'highlight-text' : 'negative-text'">Water Damage {{equip.water_element | signednumber}}</div>
+        <div *ngIf="equip.light_element" [ngClass]="equip.light_element > 0 ? 'highlight-text' : 'negative-text'">Light Damage {{equip.light_element | signednumber}}</div>
+        <div *ngIf="equip.all_element" [ngClass]="equip.all_element > 0 ? 'highlight-text' : 'negative-text'">All Element Damage {{equip.all_element | signednumber}}</div>
+        <div *ngIf="equip.inflict_fire" class="highlight-text">Inflict Fire Damage</div>
+        <div *ngIf="equip.inflict_shadow" class="highlight-text">Inflict Shadow Damage</div>
+        <div *ngIf="equip.inflict_water" class="highlight-text">Inflict Water Damage</div>
+        <div *ngIf="equip.inflict_light" class="highlight-text">Inflict Light Damage</div>
+        <div *ngIf="equip.physical_crit_chance" [ngClass]="equip.physical_crit_chance > 0 ? 'highlight-text' : 'negative-text'">Physical Critical Chance {{equip.physical_crit_chance | signednumber}}%</div>
+        <div *ngIf="equip.magical_crit_chance" [ngClass]="equip.magical_crit_chance > 0 ? 'highlight-text' : 'negative-text'">Magical Critical Chance {{equip.magical_crit_chance | signednumber}}%</div>
+        <div *ngIf="equip.rear_physical_crit_chance" [ngClass]="equip.rear_physical_crit_chance > 0 ? 'highlight-text' : 'negative-text'">Rear Physical Critical Chance {{equip.physical_crit_chance | signednumber}}%</div>
+        <div *ngIf="equip.rear_magical_crit_chance" [ngClass]="equip.rear_magical_crit_chance > 0 ? 'highlight-text' : 'negative-text'">Rear Magical Critical Chance {{equip.magical_crit_chance | signednumber}}%</div>
+        <div *ngIf="equip.hit_recovery" [ngClass]="equip.hit_recovery > 0 ? 'highlight-text' : 'negative-text'">Hit Recovery {{equip.hit_recovery | signednumber}}</div>
+        <div *ngIf="equip.hit_rate" [ngClass]="equip.hit_rate > 0 ? 'highlight-text' : 'negative-text'">Hit Rate {{equip.hit_rate | signednumber}}%</div>
+        <div *ngIf="equip.jump_strength" [ngClass]="equip.jump_strength > 0 ? 'highlight-text' : 'negative-text'">Jump Strength {{equip.jump_strength | signednumber}}</div>
+        <div *ngIf="equip.inventory_weight_limit" [ngClass]="equip.inventory_weight_limit > 0 ? 'highlight-text' : 'negative-text'">Inventory Weight Limit {{equip.inventory_weight_limit | signednumber}}kg</div>
+    </div>
+    <div *ngIf="equip.enchantment" class="enchantment-text">
+        <br />
+        Weapon Physical Atk. +10
+    </div>
+    <div *ngIf="equip.description || equip.full_description" class="advanced-miscellaneous-info">
+        <br />
+        <div class="detailed-description-text line-break">{{equip.full_description || equip.description}}</div>
+    </div>
+    <div *ngIf="equip.flavor_description" class="flavor-info">
+        <hr />
+        <div class="faded-text line-break">{{equip.flavor_description}}</div>
+    </div>
+    <hr />
+    <div class="morph-info">
+        <div class="quick-info-text info-text">View Quick Info. (I)</div>
+        <br />
+        <div *ngIf="!equip.compoundable" class="highlight-negative-text">Unable to synthesize</div>
+        <div *ngIf="!equip.transcendable" class="highlight-negative-text">Cannot be transcended</div>
+        <div *ngIf="!equip.disassemble" class="highlight-negative-text">Cannot be disassembled</div>
+        <div *ngIf="!equip.storable" class="highlight-negative-text">Cannot be stored in safe</div>
+    </div>
+    <hr />
+    <div class="arena-info-text info-text">Dungeon Info (Arena Info: A)</div>
+    <hr />
+    <div class="vendor-info clearfix">
+        <div class="align-right float-right">
+            <div [class.hide]="!equip.durability" class="durability-info">
+                Durability
+                <div class="durability-bar"></div>
+                {{equip.durability}}/{{equip.durability}}
+            </div>
+            <div *ngIf="equip.price">{{equip.price | number}} Gold</div>
+        </div>
+        <div *ngIf="equip.weight" class="weight-text">{{equip.weight}}kg</div>
+    </div>
+</div>

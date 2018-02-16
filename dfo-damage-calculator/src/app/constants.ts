@@ -17,17 +17,27 @@ export namespace Constants {
     // The percentage of HP regeneration increased per point of vitality.
     export const vitHPRegenCoefficient: number = 1 / 250;
 
-    // The percentage of HP maximum increased per point of spirit.
-    export const sprMPMaxCoefficient: number = 1 / 200;
-
-    // The percentage of HP regeneration increased per point of spirit.
-    export const sprMPRegenCoefficient: number = 1 / 200;
-
     // The amount of magical defense increased per point of spirit.
     export const sprDefenseCoefficient: number = 5;
 
+    // The percentage of HP maximum increased per point of spirit.
+    export const sprMPMaxCoefficient: number = 1 / 250;
+
+    // The percentage of HP regeneration increased per point of spirit.
+    // TODO: validate this number
+    export const sprMPRegenCoefficient: number = 1 / 200;
+
     // The amount of damage increased per point of elemental damage.
     export const elementalDamageCoefficient: number = 1 / 222;
+
+    // The amount of damage increased for critically striking an enemy.
+    export const criticalAttackDamageIncrease: number = 1.5;
+
+    // The amount of damage increased for attacking an enemy from behind.
+    export const rearAttackDamageIncrease: number = 1.2;
+
+    // The amount of damage increased for attacking an enemy mid-attack.
+    export const counterAttackDamageIncrease: number = 1.2;
 
     // Statistics that affect gameplay but are not reflected in
     // the stats window.
@@ -36,9 +46,13 @@ export namespace Constants {
         allElementalDamage: 11
     }
 
-    // When an item is purified, it grants one of the following
-    // bonus stats.  Otherwise, it is not considered to have
-    // amplification.
+    /* When an item is purified, it grants one of the following
+     * bonus stats.  Otherwise, it is not considered to have
+     * amplification.
+     * 
+     * Items must be of at least rare rarity and level 55 or higher
+     * in order to have amplification.
+     */
     export enum amplification {
         None = 'None',
         Strength = 'Strength',
@@ -52,10 +66,19 @@ export namespace Constants {
         Common,
         Uncommon,
         Rare,
-        Unique,
         Chronicle,
+        Unique,
         Legendary,
         Epic
+    }
+
+    // Weapon attack/draw speed
+    export enum weaponSpeed {
+        VerySlow,
+        Slow,
+        Average,
+        Fast,
+        VeryFast
     }
 
     // Possible major classes in DFO.
@@ -81,94 +104,159 @@ export namespace Constants {
         SpecialAccessory = 'Special Accessory'
     }
 
-    export const equipmentSubType = {
-        weapon: {
-            slayer: {
-                displayName: 'Slayer/Dark Knight/Knight',
-                values: {
-                    bludgeon: 'Bludgeon',
-                    katana: 'Katana',
-                    lightsabre: 'Lightsabre',
-                    shortSword: 'Short Sword',
-                    zanbato: 'Zanbato'
+    // Full definition of character equipment types.
+    // Definitions are from DFOpedia.
+    export const equipmentSubType: DFO_Constants.EquipmentCategory[] = [
+        {
+            name: 'Weapon',
+            displayName: 'Weapon',
+            values: [
+                {
+                    name: 'Slayer',
+                    displayName: 'Slayer/Dark Knight/Knight',
+                    values: [
+                        'Short Sword',
+                        'Katana',
+                        'Bludgeon',
+                        'Zanbato',
+                        'Lightsabre'
+                    ]
+                },
+                {
+                    displayName: 'Fighter',
+                    values: [
+                        'Knuckle',
+                        'Gauntlets',
+                        'Claw',
+                        'Boxing Gloves',
+                        'Tonfa'
+                    ]
+                },
+                {
+                    displayName: 'Gunner',
+                    values: [
+                        'Revolver',
+                        'Autogun',
+                        'Musket',
+                        'Hand Cannon',
+                        'Bowgun'
+                    ]
+                },
+                {
+                    name: 'Mage',
+                    displayName: 'Mage/Creator',
+                    values: [
+                        'Spear',
+                        'Pole',
+                        'Rod',
+                        'Staff',
+                        'Broomstick'
+                    ]
+                },
+                {
+                    displayName: 'Priest',
+                    values: [
+                        'Cross',
+                        'Rosary',
+                        'Totem',
+                        'Scythe',
+                        'Battle Axe'
+                    ]
+                },
+                {
+                    displayName: 'Thief',
+                    values: [
+                        'Dagger',
+                        'Dual Blade',
+                        'Wand',
+                        'Chakra Weapon'
+                    ]
+                },
+                {
+                    name: 'Lancer',
+                    displayName: 'Demonic Lancer',
+                    values: [
+                        'Long Lance',
+                        'Halberd'
+                    ]
                 }
-            },
-            fighter: {
-                displayName: 'Fighter',
-                values: {
-                    boxingGloves: 'Boxing Gloves',
-                    claw: 'Claw',
-                    gauntlets: 'Gauntlets',
-                    knuckle: 'Knuckle',
-                    tonfa: 'Tonfa',
-                }
-            },
-            gunner: {
-                displayName: 'Gunner',
-                values: {
-                    autogun: 'Autogun',
-                    bowgun: 'Bowgun',
-                    handCannon: 'Hand Cannon',
-                    musket: 'Musket',
-                    revolver: 'Revolver'
-                }
-            },
-            mage: {
-                displayName: 'Mage/Creator',
-                values: {
-                    broomstick: 'Broomstick',
-                    pole: 'Pole',
-                    rod: 'Rod',
-                    spear: 'Spear',
-                    staff: 'Staff'
-                }
-            },
-            priest: {
-                displayName: 'Priest',
-                values: {
-                    battleAxe: 'Battle Axe',
-                    cross: 'Cross',
-                    rosary: 'Rosary',
-                    scythe: 'Scythe',
-                    totem: 'Totem'
-                }
-            },
-            thief: {
-                displayName: 'Thief',
-                values: {
-                    chakraWeapon: 'Chakra Weapon',
-                    dagger: 'Dagger',
-                    dualBlade: 'Dual Blade',
-                    wand: 'Wand'
-                }
-            },
-            demonicLancer: {
-                displayName: 'Demonic Lancer',
-                values: {
-                    halberd: 'Halberd',
-                    longLance: 'Long Lance'
-                }
-            }
+            ]
         },
-        armor: {
-            cloth: 'Cloth',
-            leather: 'Leather',
-            light: 'Light Armor',
-            heavy: 'Heavy Armor',
-            plate: 'Plate Armor'
+        {
+            displayName: 'Armor',
+            values: [
+                {
+                    displayName: 'Cloth',
+                    values: [
+                        'Top',
+                        'Head/Shoulder',
+                        'Bottom',
+                        'Belt',
+                        'Shoes'
+                    ]
+                },
+                {
+                    displayName: 'Leather',
+                    values: [
+                        'Top',
+                        'Head/Shoulder',
+                        'Bottom',
+                        'Belt',
+                        'Shoes'
+                    ]
+                },
+                {
+                    displayName: 'Light Armor',
+                    values: [
+                        'Top',
+                        'Head/Shoulder',
+                        'Bottom',
+                        'Belt',
+                        'Shoes'
+                    ]
+                },
+                {
+                    displayName: 'Heavy Armor',
+                    values: [
+                        'Top',
+                        'Head/Shoulder',
+                        'Bottom',
+                        'Belt',
+                        'Shoes'
+                    ]
+                },
+                {
+                    displayName: 'Plate Armor',
+                    values: [
+                        'Top',
+                        'Head/Shoulder',
+                        'Bottom',
+                        'Belt',
+                        'Shoes'
+                    ]
+                }
+            ]
         },
-        accessory: {
-            bracelet: 'Bracelet',
-            necklace: 'Necklace',
-            ring: 'Ring'
+        {
+            displayName: 'Accessory',
+            values: [
+                'Necklace',
+                'Ring',
+                'Bracelet'
+            ]
         },
-        specialAccessory: {
-            sub_equipment: 'Sub Equipment',
-            magic_stone: 'Magic Stone',
-            earring: 'Earring'
+        {
+            displayName: 'Special Accessory',
+            values: [
+                'Sub Equipment',
+                'Magic Stone',
+                'Earring'
+            ]
         },
-        title: 'Title'
-    }
+        {
+            displayName: 'Title'
+        }
+    ]
 
     export enum equipmentSlot {
         Weapon,
@@ -379,7 +467,8 @@ export namespace Constants {
         rarity: itemRarity.Epic,
         level: 85,
         type: "Weapon",
-        subtype1: "Zanbato",
+        subtype1: "Slayer",
+        subtype2: "Zanbato",
         quality: 100,
         class_category: [classCategory.Slayer, classCategory.DarkKnight, classCategory.Knight],
         amplified: false,
@@ -389,10 +478,14 @@ export namespace Constants {
           physical_attack: 10
         },
         physical_attack: 1267,
+        bonus_physical_attack: 679,
         magical_attack: 950,
+        bonus_magical_attack: 661,
         independent_attack: 648,
+        bonus_independent_attack: 449,
+        bonus_abnormal_status_attack: 91.6,
         strength: 72,
-        speed: "Slow",
+        speed: weaponSpeed.Slow,
         physical_skill_mp: 20,
         physical_skill_cooldown: 10,
         magical_skill_mp: -10,

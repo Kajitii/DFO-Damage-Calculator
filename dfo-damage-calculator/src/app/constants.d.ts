@@ -24,6 +24,12 @@ declare namespace DFO_Constants {
         specialAccessory: number
     }
 
+    export interface EquipmentCategory {
+        name?: string,
+        displayName: string,
+        values?: EquipmentCategory[] | string[]
+    }
+
     export interface BaseExorcismVariables {
         ceRarity: CERarity,
         constCategory: ConstCategory
