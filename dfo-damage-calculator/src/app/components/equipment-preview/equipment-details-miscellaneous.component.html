@@ -1,0 +1,30 @@
+<div *ngIf="equip.hp_max" [ngClass]="equip.hp_max > 0 ? 'highlight-text' : 'negative-text'">HP MAX {{equip.hp_max | signednumber}} (Actual {{equip.hp_max}})</div>
+<div *ngIf="equip.mp_max" [ngClass]="equip.mp_max > 0 ? 'highlight-text' : 'negative-text'">MP MAX {{equip.mp_max | signednumber}} (Actual {{equip.mp_max}})</div>
+<div *ngIf="equip.hp_recovery" [ngClass]="equip.hp_recovery > 0 ? 'highlight-text' : 'negative-text'">{{equip.hp_recovery | signednumber}} HP per Min. (Actual {{equip.hp_recovery | signednumber}})</div>
+<div *ngIf="equip.mp_recovery" [ngClass]="equip.mp_recovery > 0 ? 'highlight-text' : 'negative-text'">{{equip.mp_recovery | signednumber}} MP per Min. (Actual {{equip.mp_recovery | signednumber}})</div>
+<div *ngIf="equip.attack_speed" [ngClass]="equip.attack_speed > 0 ? 'highlight-text' : 'negative-text'">Attack Speed {{equip.attack_speed | signednumber}}%</div>
+<div *ngIf="equip.move_speed" [ngClass]="equip.move_speed > 0 ? 'highlight-text' : 'negative-text'">Move Speed {{equip.move_speed | signednumber}}%</div>
+<div *ngIf="equip.cast_speed" [ngClass]="equip.cast_speed > 0 ? 'highlight-text' : 'negative-text'">Casting Speed {{equip.cast_speed | signednumber}}%</div>
+<div *ngIf="equip.evasion" [ngClass]="equip.evasion > 0 ? 'highlight-text' : 'negative-text'">Evasion Rate {{equip.evasion | signednumber}}%</div>
+<div *ngIf="equip.fire_resist" [ngClass]="equip.fire_resist > 0 ? 'highlight-text' : 'negative-text'">Fire Resist {{equip.fire_resist | signednumber}}</div>
+<div *ngIf="equip.shadow_resist" [ngClass]="equip.shadow_resist > 0 ? 'highlight-text' : 'negative-text'">Shadow Resist {{equip.shadow_resist | signednumber}}</div>
+<div *ngIf="equip.water_resist" [ngClass]="equip.water_resist > 0 ? 'highlight-text' : 'negative-text'">Water Resist {{equip.water_resist | signednumber}}</div>
+<div *ngIf="equip.light_resist" [ngClass]="equip.light_resist > 0 ? 'highlight-text' : 'negative-text'">Light Resist {{equip.light_resist | signednumber}}</div>
+<div *ngIf="equip.all_resist" [ngClass]="equip.all_resist > 0 ? 'highlight-text' : 'negative-text'">All Element Resist {{equip.all_resist | signednumber}}</div>
+<div *ngIf="equip.fire_element" [ngClass]="equip.fire_element > 0 ? 'highlight-text' : 'negative-text'">Fire Damage {{equip.fire_element | signednumber}}</div>
+<div *ngIf="equip.shadow_element" [ngClass]="equip.shadow_element > 0 ? 'highlight-text' : 'negative-text'">Shadow Damage {{equip.shadow_element | signednumber}}</div>
+<div *ngIf="equip.water_element" [ngClass]="equip.water_element > 0 ? 'highlight-text' : 'negative-text'">Water Damage {{equip.water_element | signednumber}}</div>
+<div *ngIf="equip.light_element" [ngClass]="equip.light_element > 0 ? 'highlight-text' : 'negative-text'">Light Damage {{equip.light_element | signednumber}}</div>
+<div *ngIf="equip.all_element" [ngClass]="equip.all_element > 0 ? 'highlight-text' : 'negative-text'">All Element Damage {{equip.all_element | signednumber}}</div>
+<div *ngIf="equip.inflict_fire" class="highlight-text">Inflict Fire Damage</div>
+<div *ngIf="equip.inflict_shadow" class="highlight-text">Inflict Shadow Damage</div>
+<div *ngIf="equip.inflict_water" class="highlight-text">Inflict Water Damage</div>
+<div *ngIf="equip.inflict_light" class="highlight-text">Inflict Light Damage</div>
+<div *ngIf="equip.physical_crit_chance" [ngClass]="equip.physical_crit_chance > 0 ? 'highlight-text' : 'negative-text'">Physical Critical Chance {{equip.physical_crit_chance | signednumber}}%</div>
+<div *ngIf="equip.magical_crit_chance" [ngClass]="equip.magical_crit_chance > 0 ? 'highlight-text' : 'negative-text'">Magical Critical Chance {{equip.magical_crit_chance | signednumber}}%</div>
+<div *ngIf="equip.rear_physical_crit_chance" [ngClass]="equip.rear_physical_crit_chance > 0 ? 'highlight-text' : 'negative-text'">Rear Physical Critical Chance {{equip.physical_crit_chance | signednumber}}%</div>
+<div *ngIf="equip.rear_magical_crit_chance" [ngClass]="equip.rear_magical_crit_chance > 0 ? 'highlight-text' : 'negative-text'">Rear Magical Critical Chance {{equip.magical_crit_chance | signednumber}}%</div>
+<div *ngIf="equip.hit_recovery" [ngClass]="equip.hit_recovery > 0 ? 'highlight-text' : 'negative-text'">Hit Recovery {{equip.hit_recovery | signednumber}}</div>
+<div *ngIf="equip.hit_rate" [ngClass]="equip.hit_rate > 0 ? 'highlight-text' : 'negative-text'">Hit Rate {{equip.hit_rate | signednumber}}%</div>
+<div *ngIf="equip.jump_strength" [ngClass]="equip.jump_strength > 0 ? 'highlight-text' : 'negative-text'">Jump Strength {{equip.jump_strength | signednumber}}</div>
+<div *ngIf="equip.inventory_weight_limit" [ngClass]="equip.inventory_weight_limit > 0 ? 'highlight-text' : 'negative-text'">Inventory Weight Limit {{equip.inventory_weight_limit | signednumber}}kg</div>

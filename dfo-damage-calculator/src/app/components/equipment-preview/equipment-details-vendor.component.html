@@ -1,0 +1,9 @@
+<div class="align-right float-right">
+    <div [class.hide]="!equip.durability" class="durability-info">
+        Durability
+        <div class="durability-bar"></div>
+        {{equip.durability}}/{{equip.durability}}
+    </div>
+    <div *ngIf="equip.price">{{equip.price | number}} Gold</div>
+</div>
+<div *ngIf="equip.weight" class="weight-text">{{equip.weight}}kg</div>

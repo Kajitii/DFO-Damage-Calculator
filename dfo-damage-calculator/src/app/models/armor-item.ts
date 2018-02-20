@@ -16,4 +16,16 @@ export class ArmorItem extends EquipmentItem {
         this.bonus_percent_physical_reduction = equip['bonus_percent_physical_reduction'] || 0;
     }
 
+    public getType1(): string {
+        return this.subtype1;
+    }
+
+    public getType2(): string {
+        return this.subtype2;
+    }
+
+    public preferAttackSummary(): boolean {
+        return false;
+    }
+
 }

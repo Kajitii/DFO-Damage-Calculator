@@ -266,13 +266,13 @@
         <hr />
         <div class="form-row">
             <div class="form-col-40"><label for="weight" title="Weight in Kilograms">Weight:</label></div><!--
-            --><div class="form-col-10"><input id="weight" [(ngModel)]="equip.weight" type="number"></div><!--
+            --><div class="form-col-10"><input id="weight" [(ngModel)]="equip.weight" type="number" min="0"></div><!--
             --><div class="form-col-40"><label for="durability" title="Durability">Durability:</label></div><!--
-            --><div class="form-col-10"><input id="durability" [(ngModel)]="equip.durability" type="number"></div>
+            --><div class="form-col-10"><input id="durability" [(ngModel)]="equip.durability" type="number" min="0"></div>
         </div>
         <div class="form-row">
             <div class="form-col-25"><label for="price" title="Gold Value">Gold Value:</label></div><!--
-            --><div class="form-col-75"><input id="price" [(ngModel)]="equip.price" type="number"></div>
+            --><div class="form-col-75"><input id="price" [(ngModel)]="equip.price" type="number" min="0"></div>
         </div>
     </div>
     <div class="container">

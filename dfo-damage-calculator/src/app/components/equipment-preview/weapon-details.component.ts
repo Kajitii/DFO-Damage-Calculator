@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { WeaponItem } from '../models/weapon-item';
-import { Constants } from '../constants';
-import { Utils } from '../utils';
+import { WeaponItem } from '../../models/weapon-item';
+import { Constants } from '../../constants';
+import { Utils } from '../../utils';
 
 @Component({
     selector: 'weapon-details',

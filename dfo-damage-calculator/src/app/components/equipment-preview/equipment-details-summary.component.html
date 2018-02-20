@@ -1,0 +1,23 @@
+<div class="align-right float-right">
+    <div class="rarity-{{(itemRarities[equip.rarity] || 'none') | lowercase}}-text">{{itemRarities[equip.rarity] || 'Common'}}</div>
+    <div class="type1-text">{{equip.getType1()}}</div>
+    <div class="type2-text">{{equip.getType2()}}</div>
+</div>
+<div [class.hide]="!equip.quality" class="quality-text">
+    <span class="quality-{{equip.qualityDescription() | lowercase}}-text">{{equip.qualityDescription()}}</span>
+    <span class="faded-text">({{equip.quality}}%)</span>
+</div>
+<div *ngIf="equip.preferAttackSummary()">
+    <div [class.hide]="!equip.physical_attack" class="physical-text">Physical Atk. {{equip.totalPhysicalAttack() | roundnumber | signednumber}}</div>
+    <div [class.hide]="!equip.magical_attack" class="magical-text">Magical Atk. {{equip.totalMagicalAttack() | roundnumber | signednumber}}</div>
+    <div [class.hide]="!equip.independent_attack" class="independent-text">Independent Atk. {{equip.totalIndependentAttack() | roundnumber| signednumber}}</div>
+</div>
+<div *ngIf="!equip.preferAttackSummary()">
+    <div [class.hide]="!equip.physical_defense" class="physical-text">Physical Def. {{equip.totalPhysicalDefense() | roundnumber | signednumber}}</div>
+    <div [class.hide]="!equip.magical_defense" class="magical-text">Magical Def. {{equip.totalMagicalDefense() | roundnumber | signednumber}}</div>
+</div>
+<div class="align-right">
+    <div [class.hide]="equip.tradable && !equip.sealable" class="{{equip.tradable ? '' : 'faded-text'}}">{{equip.tradable ? 'Sealed' : 'Untradable'}}</div>
+    <div *ngIf="equip.level" class="level-text">Lv {{equip.level}}</div>
+</div>
+<div *ngIf="equip.hasClassRestriction()" class="class-required-text">Class: {{equip.restrictedClasses()}}</div>

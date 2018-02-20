@@ -36,6 +36,18 @@ export class WeaponItem extends EquipmentItem {
         this.bonus_independent_attack = equip['bonus_independent_attack'] || 0;
         this.bonus_abnormal_status_attack = equip['bonus_abnormal_status_attack'] || 0;
     }
+
+    public getType1(): string {
+        return this.subtype2;
+    }
+
+    public getType2(): string {
+        return this.type;
+    }
+
+    public preferAttackSummary(): boolean {
+        return true;
+    }
     
     public totalPhysicalAttack(): number {
         let c: number = 1 + this.strength / 250;

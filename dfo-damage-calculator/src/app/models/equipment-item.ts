@@ -348,6 +348,18 @@ export class EquipmentItem {
         return this.amplification !== Constants.amplification.None;
     }
 
+    public getType1(): string {
+        return this.type;
+    }
+
+    public getType2(): string {
+        return null;
+    }
+
+    public preferAttackSummary(): boolean {
+        return this.physical_attack > 0 || this.magical_attack > 0 || this.independent_attack > 0;
+    }
+
     /**************************
      * Base stat calculations
      **************************/

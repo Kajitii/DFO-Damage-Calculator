@@ -1,0 +1,8 @@
+<div *ngIf="equip.strength">Strength {{equip.strength | signednumber}}</div>
+<div *ngIf="equip.amplification === 'Strength'" class="amplified-text">{{equip.boost_level | signednumber}} Boost: Dimensional Strength {{equip.bonus_dimensional_stat | signednumber}}</div>
+<div *ngIf="equip.intelligence">Intelligence {{equip.intelligence | signednumber}}</div>
+<div *ngIf="equip.amplification === 'Intelligence'" class="amplified-text">{{equip.boost_level | signednumber}} Boost: Dimensional Intelligence {{equip.bonus_dimensional_stat | signednumber}}</div>
+<div *ngIf="equip.vitality">Vitality {{equip.vitality | signednumber}}</div>
+<div *ngIf="equip.amplification === 'Vitality'" class="amplified-text">{{equip.boost_level | signednumber}} Boost: Dimensional Vitality {{equip.bonus_dimensional_stat | signednumber}}</div>
+<div *ngIf="equip.spirit">Spirit {{equip.spirit | signednumber}}</div>
+<div *ngIf="equip.amplification === 'Spirit'" class="amplified-text">{{equip.boost_level | signednumber}} Boost: Dimensional Spirit {{equip.bonus_dimensional_stat | signednumber}}</div>
