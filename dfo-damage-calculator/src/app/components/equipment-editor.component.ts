@@ -61,6 +61,10 @@ export class EquipmentEditor implements OnInit {
         this.equip.exorcism = this.equip.baseExorcism();
     }
 
+    foobar(): void {
+        console.log(this.equip);
+    }
+
     toggleCollapse(event: Event): void {
         console.log(event);
     }

@@ -13,12 +13,6 @@ let qualityStrings = [
     'Superior'
 ];
 
-let rarityStrings = [
-    'Common',
-    'Uncommon',
-    
-]
-
 export class EquipmentItem {
 
     //Equipment basic properties
@@ -260,12 +254,12 @@ export class EquipmentItem {
         this.set_effect_id = equip['set_effect_id'];
     
         //Equipment morphability
-        this.tradable = equip['tradable'] || true;
-        this.sealable = equip['sealable'] || true;
-        this.compoundable = equip['compoundable'] || true;
-        this.transcendable = equip['transcendable'] || true;
-        this.storable = equip['storable'] || true;
-        this.disassemble = equip['disassemble'] || true;
+        this.tradable = this.initializeBooleanValue(equip['tradable'], this.baseTradability);
+        this.sealable = this.initializeBooleanValue(equip['sealable'], this.baseSealability);
+        this.compoundable = this.initializeBooleanValue(equip['compoundable'], this.baseCompoundability);
+        this.transcendable = this.initializeBooleanValue(equip['transcendable'], function() { return true });
+        this.storable = this.initializeBooleanValue(equip['storable'], function() { return true });
+        this.disassemble = this.initializeBooleanValue(equip['disassemble'], function() { return true });
     
         //Equipment vendor info
         this.weight = equip['weight'] || 0;
@@ -285,6 +279,13 @@ export class EquipmentItem {
             }
         }
         return a;
+    }
+
+    private initializeBooleanValue(value: boolean, defaultFn: () => boolean): boolean {
+        if (value !== undefined) {
+            return value;
+        }
+        return defaultFn();
     }
 
     public restrictedClasses(): string {
@@ -348,14 +349,17 @@ export class EquipmentItem {
         return this.amplification !== Constants.amplification.None;
     }
 
+    //Top type description line.  Depends on equipment type.
     public getType1(): string {
         return this.subtype1;
     }
 
+    //Bottom type description line.  Depends on equipment type.
     public getType2(): string {
         return null;
     }
 
+    //Whether attack stats are displayed in the summary, and before defense stats.
     public preferAttackStats(): boolean {
         return this.physical_attack > 0 || this.magical_attack > 0 || this.independent_attack > 0;
     }
@@ -364,17 +368,84 @@ export class EquipmentItem {
      * Base stat calculations
      **************************/
 
-    public baseExorcism(level: number = this.level): number {
+    /* Determines the default exorcism value of the equipment.
+     *
+     * Variables that influence exorcism are item type, rarity, and level.
+     */
+    public baseExorcism(): number {
         let exoConstants = Constants.baseExorcismVariables;
         let base: number = exoConstants.constCategory[this.type.computerize()];
         let ceRarity: number = exoConstants.ceRarity[Constants.itemRarity[this.rarity].computerize()];
-        return base * (ceRarity + level / 5);
+        return base * (ceRarity + this.level / 5);
+    }
+
+    /* Determines the default tradability of the equipment.
+     *
+     * Generally speaking, chronicle and epic rarity equipment are not tradable.
+     * Exceptions do exist elsewhere, which must be determined on a case-by-case
+     * basis.
+     */
+    public baseTradability(): boolean {
+        return this.rarity !== Constants.itemRarity.Chronicle && this.rarity !== Constants.itemRarity.Epic;
+    }
+
+    /* Determines the default sealability of the equipment.  Sealable equipment,
+     * once equipped, is bound to the character and cannot be traded.  This can
+     * be undone using Golden Candles.
+     * 
+     * Untradable equipment cannot be sealed.
+     * 
+     * Unique and most legendary rarity equipment are sealable.
+     */
+    public baseSealability(): boolean {
+        return this.baseTradability() && (this.rarity === Constants.itemRarity.Unique || this.rarity === Constants.itemRarity.Legendary);
+    }
+
+    /* Determines the default compoundability of the equipment.
+     * 
+     * Generally speaking, rare, most unique, and tradable legendary equipment
+     * can be used to compound for new items.
+     */
+    public baseCompoundability(): boolean {
+        return this.rarity === Constants.itemRarity.Rare || this.rarity === Constants.itemRarity.Unique || this.rarity === Constants.itemRarity.Legendary;
+    }
+
+    /* Determines the default transcendability of the equipment.  Transcendence
+     * allows players to trade items between their own characters, but not to
+     * other players.
+     * 
+     * Only raid exclusive rewards are definitively not transcendable.  Other
+     * exceptions exist, and must be determined on a case-by-case basis.
+     */
+    public baseTranscendability(): boolean {
+        return true;
+    }
+
+    /* Determines the default storability of the equipment.
+     *
+     * This must be determined on a case-by-case basis.
+     */
+    public baseStorability(): boolean {
+        return true;
+    }
+
+    /* Determines the default grindability of the equipment.
+     *
+     * This must be determined on a case-by-case basis.
+     */
+    public baseGrindability(): boolean {
+        return true;
     }
 
     /**************************
      * Bonus stat calculations
      **************************/
 
+    /* Determines whether exorcism resulting from refinement is more than
+     * reinforcement/amplification.  Refinement takes precedence.
+     * 
+     * Refinement 8 has the same exorcism as boost 13.
+     */
     public isRefinedMoreThanBoost(): boolean {
         if (this.type !== Constants.equipmentType.Weapon) {
             return false;
@@ -383,6 +454,12 @@ export class EquipmentItem {
         return boostLevelEquivalent >= this.boost_level;
     }
 
+    /* Calculates bonus exorcism as a result of the higher of refinement
+     * or boost.
+     * 
+     * Variables that influence bonus exorcism include the strength of
+     * refinement/boost, equipment type, and rarity.
+     */
     public bonusExorcism(): number {
         let exoConstants = Constants.bonusExorcismVariables;
         let ceRarity: number = exoConstants.reinforcement.ceRarity[Constants.itemRarity[this.rarity].computerize()];

@@ -2,7 +2,7 @@
     <div class="editor container">
         <div class="form-row">
             <div class="form-col-25"><label for="name">Name:</label></div><!--
-            --><div class="form-col-75"><input id="name" [(ngModel)]="equip.name" type="text" placeholder="Equipment Name"></div>
+            --><div class="form-col-75"><input id="name" [(ngModel)]="equip.name" type="text" placeholder="Equipment Name" required></div>
         </div>
         <div class="form-row">
             <div class="form-col-25"><label for="rarity">Rarity:</label></div><!--
@@ -273,6 +273,9 @@
         <div class="form-row">
             <div class="form-col-25"><label for="price" title="Gold Value">Gold Value:</label></div><!--
             --><div class="form-col-75"><input id="price" [(ngModel)]="equip.price" type="number" min="0"></div>
+        </div>
+        <div class="form-row">
+            <input type="button" value="Save" (click)="foobar()">
         </div>
     </div>
     <div class="container">
