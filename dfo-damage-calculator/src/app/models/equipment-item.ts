@@ -349,14 +349,14 @@ export class EquipmentItem {
     }
 
     public getType1(): string {
-        return this.type;
+        return this.subtype1;
     }
 
     public getType2(): string {
         return null;
     }
 
-    public preferAttackSummary(): boolean {
+    public preferAttackStats(): boolean {
         return this.physical_attack > 0 || this.magical_attack > 0 || this.independent_attack > 0;
     }
 

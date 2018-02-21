@@ -45,7 +45,7 @@ export class WeaponItem extends EquipmentItem {
         return this.type;
     }
 
-    public preferAttackSummary(): boolean {
+    public preferAttackStats(): boolean {
         return true;
     }
     

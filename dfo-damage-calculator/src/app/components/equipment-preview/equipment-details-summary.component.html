@@ -7,12 +7,12 @@
     <span class="quality-{{equip.qualityDescription() | lowercase}}-text">{{equip.qualityDescription()}}</span>
     <span class="faded-text">({{equip.quality}}%)</span>
 </div>
-<div *ngIf="equip.preferAttackSummary()">
+<div *ngIf="equip.preferAttackStats()">
     <div [class.hide]="!equip.physical_attack" class="physical-text">Physical Atk. {{equip.totalPhysicalAttack() | roundnumber | signednumber}}</div>
     <div [class.hide]="!equip.magical_attack" class="magical-text">Magical Atk. {{equip.totalMagicalAttack() | roundnumber | signednumber}}</div>
     <div [class.hide]="!equip.independent_attack" class="independent-text">Independent Atk. {{equip.totalIndependentAttack() | roundnumber| signednumber}}</div>
 </div>
-<div *ngIf="!equip.preferAttackSummary()">
+<div *ngIf="!equip.preferAttackStats()">
     <div [class.hide]="!equip.physical_defense" class="physical-text">Physical Def. {{equip.totalPhysicalDefense() | roundnumber | signednumber}}</div>
     <div [class.hide]="!equip.magical_defense" class="magical-text">Magical Def. {{equip.totalMagicalDefense() | roundnumber | signednumber}}</div>
 </div>

@@ -278,5 +278,7 @@
     <div class="container">
         <weapon-details *ngIf="equip.type === 'Weapon'" [equip]="equip"></weapon-details>
         <armor-details *ngIf="equip.type === 'Armor'" [equip]="equip"></armor-details>
+        <accessory-details *ngIf="equip.type === 'Accessory'" [equip]="equip"></accessory-details>
+        <special-accessory-details *ngIf="equip.type === 'Special Accessory'" [equip]="equip"></special-accessory-details>
     </div>
 </div>

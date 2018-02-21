@@ -8,19 +8,10 @@
     <div class="hover-primary-stats">
         <equipment-details-primary [equip]="equip"></equipment-details-primary>
     </div>
-    <hr />
-    <div class="weapon-base-effects">
-        <div class="highlight-text">Speed: {{weaponSpeeds[equip.speed] || "Average"}}</div>
-        <div *ngIf="equip.physical_skill_mp" class="highlight-text">Physical Skill MP {{equip.physical_skill_mp | signednumber}}%</div>
-        <div *ngIf="equip.physical_skill_cooldown" class="highlight-text">Cooldown {{equip.physical_skill_cooldown | signednumber}}%</div>
-        <div *ngIf="equip.magical_skill_mp" class="highlight-text">Magical Skill MP {{equip.magical_skill_mp | signednumber}}%</div>
-        <div *ngIf="equip.magical_skill_cooldown" class="highlight-text">Cooldown {{equip.magical_skill_cooldown | signednumber}}%</div>
-    </div>
-    <hr />
     <div class="exorcism-stats">
         <equipment-details-exorcism [equip]="equip"></equipment-details-exorcism>
     </div>
-    <hr />
+    <br />
     <div class="basic-miscellaneous-info">
         <equipment-details-miscellaneous [equip]="equip"></equipment-details-miscellaneous>
     </div>
@@ -28,7 +19,7 @@
         <br />
         Weapon Physical Atk. +10
     </div>
-        <equipment-details-description [equip]="equip"></equipment-details-description>
+    <equipment-details-description [equip]="equip"></equipment-details-description>
     <hr />
     <div class="morph-info">
         <equipment-details-morph [equip]="equip"></equipment-details-morph>

@@ -5,12 +5,12 @@ import { Constants } from '../../constants';
 import { Utils } from '../../utils';
 
 @Component({
-    selector: 'armor-details',
+    selector: 'accessory-details',
     templateUrl: './equipment-details.component.html',
     styleUrls: ['./equipment-details.component.less']
 })
 
-export class ArmorDetails implements OnInit {
+export class AccessoryDetails implements OnInit {
     @Input() equip: EquipmentItem;
     itemRarities: string[] = this.getItemRarities();
 

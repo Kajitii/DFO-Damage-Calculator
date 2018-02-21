@@ -24,7 +24,7 @@ export class ArmorItem extends EquipmentItem {
         return this.subtype2;
     }
 
-    public preferAttackSummary(): boolean {
+    public preferAttackStats(): boolean {
         return false;
     }
 

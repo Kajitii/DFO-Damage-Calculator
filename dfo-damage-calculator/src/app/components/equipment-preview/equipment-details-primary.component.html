@@ -1,3 +1,30 @@
+<div *ngIf="equip.boost_level && equip.bonus_primary_stats" class="boost-text">{{equip.boost_level | signednumber}}: STR, INT, VIT, SPR {{equip.bonus_primary_stats | signednumber}}</div>
+<div *ngIf="equip.boost_level && equip.bonus_attack_stats" class="boost-text">
+    {{equip.boost_level | signednumber}}: Physical Atk. {{equip.bonus_attack_stats | signednumber}}
+    <br />{{equip.boost_level | signednumber}}: Physical Atk. {{equip.bonus_attack_stats | signednumber}}
+    <br />{{equip.boost_level | signednumber}}: Physical Atk. {{equip.bonus_attack_stats | signednumber}}
+</div>
+<div *ngIf="!equip.preferAttackStats()">
+    <div *ngIf="equip.physical_defense">Equipment Physical Def. {{equip.physical_defense | signednumber}}</div>
+    <div *ngIf="equip.boost_level && equip.bonus_flat_physical_reduction" class="boost-text">{{equip.boost_level | signednumber}} Physical Reduction: {{equip.bonus_flat_physical_reduction | roundnumber | signednumber}}</div>
+    <div *ngIf="equip.boost_level && equip.bonus_percent_physical_reduction" class="boost-text">{{equip.boost_level | signednumber}} Bonus Reduction: {{equip.bonus_percent_physical_reduction | roundnumber: 2 | signednumber}}%</div>
+    <div *ngIf="equip.magical_defense">Equipment Magical Def. {{equip.magical_defense | signednumber}}</div>
+    <div *ngIf="equip.boost_level && equip.bonus_flat_magical_reduction" class="boost-text">{{equip.boost_level | signednumber}} Magical Reduction: {{equip.bonus_flat_magical_reduction | roundnumber | signednumber}}</div>
+    <div *ngIf="equip.boost_level && equip.bonus_percent_magical_reduction" class="boost-text">{{equip.boost_level | signednumber}} Bonus Reduction: {{equip.bonus_percent_magical_reduction | roundnumber: 2 | signednumber}}%</div>
+</div>
+<div *ngIf="equip.physical_attack" class="physical-text">Weapon Physical Atk. {{equip.physical_attack | signednumber}}</div>
+<div *ngIf="equip.boost_level && equip.bonus_physical_attack" class="boost-text">{{equip.boost_level | signednumber}}: Physical Atk. {{equip.bonus_physical_attack | signednumber}}</div>
+<div *ngIf="equip.magical_attack" class="magical-text">Weapon Magical Atk. {{equip.magical_attack | signednumber}}</div>
+<div *ngIf="equip.boost_level && equip.bonus_magical_attack" class="boost-text">{{equip.boost_level | signednumber}}: Magical Atk. {{equip.bonus_magical_attack | signednumber}}</div>
+<div *ngIf="equip.independent_attack" class="independent-text">Independent Attack {{equip.independent_attack | signednumber}}</div>
+<div *ngIf="equip.refine_level" class="refined-text">
+    {{equip.refine_level | signednumber}} Independent Attack: {{equip.bonus_independent_attack | roundnumber | signednumber}}
+    <br />Abnormal Status Attack {{equip.bonus_abnormal_status_attack | roundnumber: 1 | signednumber}}%
+</div>
+<div *ngIf="equip.preferAttackStats()">
+    <div *ngIf="equip.physical_defense">Equipment Physical Def. {{equip.physical_defense | signednumber}}</div>
+    <div *ngIf="equip.magical_defense">Equipment Magical Def. {{equip.magical_defense | signednumber}}</div>
+</div>
 <div *ngIf="equip.strength">Strength {{equip.strength | signednumber}}</div>
 <div *ngIf="equip.amplification === 'Strength'" class="amplified-text">{{equip.boost_level | signednumber}} Boost: Dimensional Strength {{equip.bonus_dimensional_stat | signednumber}}</div>
 <div *ngIf="equip.intelligence">Intelligence {{equip.intelligence | signednumber}}</div>

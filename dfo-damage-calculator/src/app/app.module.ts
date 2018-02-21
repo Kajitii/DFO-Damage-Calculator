@@ -14,18 +14,23 @@ import { EquipmentLibrary } from './components/equipment-library.component';
 // Equipment Preview
 import { WeaponDetails } from './components/equipment-preview/weapon-details.component';
 import { ArmorDetails } from './components/equipment-preview/armor-details.component';
+import { AccessoryDetails } from './components/equipment-preview/accessory-details.component';
+import { SpecialAccessoryDetails } from './components/equipment-preview/special-accessory-details.component';
 import { EquipmentDetailsTitle } from './components/equipment-preview/equipment-details-title.component';
 import { EquipmentDetailsSummary } from './components/equipment-preview/equipment-details-summary.component';
 import { EquipmentDetailsPrimary } from './components/equipment-preview/equipment-details-primary.component';
+import { EquipmentDetailsExorcism } from './components/equipment-preview/equipment-details-exorcism.component';
 import { EquipmentDetailsMiscellaneous } from './components/equipment-preview/equipment-details-miscellaneous.component';
-import { EquipmentDetailsDescription } from './components/equipment-preview/equipment-details-Description.component';
+import { EquipmentDetailsDescription } from './components/equipment-preview/equipment-details-description.component';
 import { EquipmentDetailsMorph } from './components/equipment-preview/equipment-details-morph.component';
 import { EquipmentDetailsVendor } from './components/equipment-preview/equipment-details-vendor.component';
 
 @NgModule({
   declarations: [
+    AccessoryDetails,
     ArmorDetails,
     EquipmentDetailsDescription,
+    EquipmentDetailsExorcism,
     EquipmentDetailsMiscellaneous,
     EquipmentDetailsPrimary,
     EquipmentDetailsMorph,
@@ -37,6 +42,7 @@ import { EquipmentDetailsVendor } from './components/equipment-preview/equipment
     ProperCasePipe,
     RoundNumberPipe,
     SignedNumberPipe,
+    SpecialAccessoryDetails,
     WeaponDetails
   ],
   imports: [

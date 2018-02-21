@@ -4,6 +4,8 @@ import { Constants } from '../constants';
 import { EquipmentItem } from '../models/equipment-item';
 import { WeaponItem } from '../models/weapon-item';
 import { ArmorItem } from '../models/armor-item';
+import { AccessoryItem } from '../models/accessory-item';
+import { SpecialAccessoryItem } from '../models/special-accessory-item';
 
 type EquipmentCategory = DFO_Constants.EquipmentCategory;
 
@@ -34,7 +36,7 @@ export class EquipmentLibrary implements OnInit {
         let equip: object = {
             name: this.equipmentName,
             type: this.equipmentType.name || this.equipmentType.displayName,
-            subtype1: this.equipmentSubtype1.name || this.equipmentSubtype1.displayName,
+            subtype1: this.equipmentSubtype1.name || this.equipmentSubtype1.displayName || this.equipmentSubtype1,
             subtype2: this.equipmentSubtype2
         };
         switch (this.equipmentType.name || this.equipmentType.displayName) {
@@ -43,6 +45,12 @@ export class EquipmentLibrary implements OnInit {
                 break;
             case 'Armor':
                 this.equipment = new ArmorItem(equip);
+                break;
+            case 'Accessory':
+                this.equipment = new AccessoryItem(equip);
+                break;
+            case 'Special Accessory':
+                this.equipment = new SpecialAccessoryItem(equip);
                 break;
             default:
                 this.equipment = new EquipmentItem(equip);
