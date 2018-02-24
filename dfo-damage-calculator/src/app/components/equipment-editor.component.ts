@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { EquipmentItem } from '../models/equipment-item';
 
 import { Constants } from '../constants';
@@ -12,6 +12,7 @@ import { Utils } from '../utils';
 
 export class EquipmentEditor implements OnInit {
     @Input() equip: EquipmentItem;
+    @Output() onSave: EventEmitter<EquipmentItem> = new EventEmitter<EquipmentItem>();
     classCategories: string[] = this.getClassCategories();
     itemRarities: string[] = this.getItemRarities();
     amplificationTypes: string[] = this.getAmplificationTypes();
@@ -61,8 +62,8 @@ export class EquipmentEditor implements OnInit {
         this.equip.exorcism = this.equip.baseExorcism();
     }
 
-    foobar(): void {
-        console.log(this.equip);
+    save(): void {
+        this.onSave.emit(this.equip);
     }
 
     toggleCollapse(event: Event): void {

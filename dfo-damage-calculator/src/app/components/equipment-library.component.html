@@ -30,6 +30,6 @@
         </div>
     </div>
     <div class="container">
-        <equipment-editor [equip]="equipment"></equipment-editor>
+        <equipment-editor [equip]="equipment" (onSave)="onSave($event)"></equipment-editor>
     </div>
 </div>

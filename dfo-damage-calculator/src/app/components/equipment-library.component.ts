@@ -65,4 +65,9 @@ export class EquipmentLibrary implements OnInit {
     onSubtypeOneChange(): void {
         this.equipmentSubtype2 = null;
     }
+
+    onSave(equip: EquipmentItem): void {
+        console.log("Received an event:");
+        console.log(equip);
+    }
 }

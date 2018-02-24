@@ -44,7 +44,7 @@
             </div>
         </div>
         <hr />
-        <div *ngIf="equip.isWeapon()">
+        <div *ngIf="equip.isWeapon() || equip.subtype1 === 'Earring'">
             <div class="form-row">
                 <div class="form-col-40"><label for="boost">{{equip.amplification !== 'None' ? 'Amplification' : 'Reinforcement'}}:</label></div><!--
                 --><div class="form-col-10"><input id="boost" [(ngModel)]="equip.boost_level" type="number"></div><!--
@@ -71,7 +71,6 @@
             --><div class="form-col-30"><label for="bonus_magical_attack" title="Bonus magical attack from reinforcement or amplification">Bonus Magical Attack:</label></div><!--
             --><div class="form-col-20"><input id="bonus_magical_attack" [(ngModel)]="equip.bonus_magical_attack" type="number"></div>
         </div>
-        <div>
         <div class="form-row">
             <div *ngIf="equip.isWeapon()" class="form-col-40"><label for="refine">Refinement:</label></div><!--
             --><div *ngIf="equip.isWeapon()" class="form-col-10"><input id="refine" [(ngModel)]="equip.refine_level" type="number"></div><!--
@@ -84,9 +83,12 @@
             --><div class="form-col-40"><label for="bonus_independent_attack" title="Bonus independent attack from refinement">Bonus Independent Attack:</label></div><!--
             --><div class="form-col-10"><input id="bonus_independent_attack" [(ngModel)]="equip.bonus_independent_attack" type="number"></div>
         </div>
+        <div *ngIf="equip.subtype1 === 'Earring'" class="form-row">
+            <div class="form-col-40"><label for="bonus_attack_stats" title="Bonus attack from reinforcement or amplification">Bonus Attack Stats:</label></div><!--
+            --><div class="form-col-10"><input id="bonus_attack_stats" [(ngModel)]="equip.bonus_attack_stats" type="number"></div>
         </div>
         <hr />
-        <div *ngIf="equip.isArmor()">
+        <div *ngIf="equip.isArmor() || equip.isAccessory()">
             <div class="form-row">
                 <div class="form-col-40"><label for="boost">{{equip.amplification !== 'None' ? 'Amplification' : 'Reinforcement'}}:</label></div><!--
                 --><div class="form-col-10"><input id="boost" [(ngModel)]="equip.boost_level" type="number"></div><!--
@@ -109,17 +111,32 @@
         </div>
         <div *ngIf="equip.isArmor()" class="form-row">
             <div class="form-col-40"><label for="bonus_percent_physical_reduction" title="Percent physical damage reduction from reinforcement or amplification">Percent Physical Reduction:</label></div><!--
-            --><div class="form-col-10"><input id="bonus_percent_physical_reduction" [(ngModel)]="equip.bonus_percent_physical_reduction" type="number"></div><!--
+            --><div class="form-col-10"><input id="bonus_percent_physical_reduction" [(ngModel)]="equip.bonus_percent_physical_reduction" type="number" step="0.01"></div><!--
             --><div class="form-col-40"><label for="bonus_flat_physical_reduction" title="Flat physical damage reduction from reinforcement or amplification">Flat Physical Reduction:</label></div><!--
             --><div class="form-col-10"><input id="bonus_flat_physical_reduction" [(ngModel)]="equip.bonus_flat_physical_reduction" type="number"></div>
         </div>
         <div *ngIf="equip.isAccessory()" class="form-row">
             <div class="form-col-40"><label for="bonus_percent_magical_reduction" title="Percent magical damage reduction from reinforcement or amplification">Percent Magical Reduction:</label></div><!--
-            --><div class="form-col-10"><input id="bonus_percent_magical_reduction" [(ngModel)]="equip.bonus_percent_magical_reduction" type="number"></div><!--
+            --><div class="form-col-10"><input id="bonus_percent_magical_reduction" [(ngModel)]="equip.bonus_percent_magical_reduction" type="number" step="0.01"></div><!--
             --><div class="form-col-40"><label for="bonus_flat_magical_reduction" title="Flat magical damage reduction from reinforcement or amplification">Flat Magical Reduction:</label></div><!--
             --><div class="form-col-10"><input id="bonus_flat_magical_reduction" [(ngModel)]="equip.bonus_flat_magical_reduction" type="number"></div>
         </div>
         <hr />
+        <div *ngIf="equip.isSpecialAccessory() && equip.subtype1 !== 'Earring'">
+            <div class="form-row">
+                <div class="form-col-40"><label for="boost">{{equip.amplification !== 'None' ? 'Amplification' : 'Reinforcement'}}:</label></div><!--
+                --><div class="form-col-10"><input id="boost" [(ngModel)]="equip.boost_level" type="number"></div><!--
+                --><div class="form-col-30"><label for="amplify" title="Amplification Stat">Amp Stat:</label></div><!--
+                --><div class="form-col-20"><select id="amplify" [(ngModel)]="equip.amplification" [disabled]="!equip.canBeAmplified()">
+                    <option *ngFor="let amp of amplificationTypes" [ngValue]="amp">{{amp}}</option>
+                </select></div>
+            </div>
+            <div *ngIf="equip.isAmplified()" class="form-row">
+                <div class="form-col-50"></div><!--
+                --><div class="form-col-40"><label for="bonus_dimensional_stat" title="Stats gained from amplification">Bonus Dimensional Stat:</label></div><!--
+                --><div class="form-col-10"><input id="bonus_dimensional_stat" [(ngModel)]="equip.bonus_dimensional_stat" type="number"></div>
+            </div>
+        </div>
         <div class="form-row">
             <div class="form-col-10"><label for="strength" title="Strength">Str:</label></div><!--
             --><div class="form-col-10"><input id="strength" [(ngModel)]="equip.strength" type="number"></div><!--
@@ -129,6 +146,10 @@
             --><div class="form-col-10"><input id="vitality" [(ngModel)]="equip.vitality" type="number"></div><!--
             --><div class="form-col-10"><label for="spirit" title="Spirit">Spr:</label></div><!--
             --><div class="form-col-10"><input id="spirit" [(ngModel)]="equip.spirit" type="number"></div>
+        </div>
+        <div *ngIf="equip.isSpecialAccessory() && equip.subtype1 !== 'Earring'" class="form-row">
+            <div class="form-col-40"><label for="bonus_primary_stats" title="Bonus stats from reinforcement or amplification">Bonus Primary Stats:</label></div><!--
+            --><div class="form-col-10"><input id="bonus_primary_stats" [(ngModel)]="equip.bonus_primary_stats" type="number"></div>
         </div>
         <div *ngIf="equip.isWeapon()">
             <hr />
@@ -275,7 +296,7 @@
             --><div class="form-col-75"><input id="price" [(ngModel)]="equip.price" type="number" min="0"></div>
         </div>
         <div class="form-row">
-            <input type="button" value="Save" (click)="foobar()">
+            <input type="button" value="Save" (click)="save()">
         </div>
     </div>
     <div class="container">

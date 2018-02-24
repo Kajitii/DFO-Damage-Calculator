@@ -1,8 +1,8 @@
 <div *ngIf="equip.boost_level && equip.bonus_primary_stats" class="boost-text">{{equip.boost_level | signednumber}}: STR, INT, VIT, SPR {{equip.bonus_primary_stats | signednumber}}</div>
 <div *ngIf="equip.boost_level && equip.bonus_attack_stats" class="boost-text">
-    {{equip.boost_level | signednumber}}: Physical Atk. {{equip.bonus_attack_stats | signednumber}}
-    <br />{{equip.boost_level | signednumber}}: Physical Atk. {{equip.bonus_attack_stats | signednumber}}
-    <br />{{equip.boost_level | signednumber}}: Physical Atk. {{equip.bonus_attack_stats | signednumber}}
+    {{equip.boost_level | signednumber}} Reinforcement: Physical Atk. {{equip.bonus_attack_stats | signednumber}}
+    <br />{{equip.boost_level | signednumber}} Reinforcement: Magical Atk. {{equip.bonus_attack_stats | signednumber}}
+    <br />{{equip.boost_level | signednumber}} Reinforcement: Independent Atk. {{equip.bonus_attack_stats | signednumber}}
 </div>
 <div *ngIf="!equip.preferAttackStats()">
     <div *ngIf="equip.physical_defense">Equipment Physical Def. {{equip.physical_defense | signednumber}}</div>

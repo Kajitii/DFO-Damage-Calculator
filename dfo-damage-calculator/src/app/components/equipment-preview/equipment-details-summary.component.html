@@ -15,6 +15,7 @@
 <div *ngIf="!equip.preferAttackStats()">
     <div [class.hide]="!equip.physical_defense" class="physical-text">Physical Def. {{equip.totalPhysicalDefense() | roundnumber | signednumber}}</div>
     <div [class.hide]="!equip.magical_defense" class="magical-text">Magical Def. {{equip.totalMagicalDefense() | roundnumber | signednumber}}</div>
+    <br />
 </div>
 <div class="align-right">
     <div [class.hide]="equip.tradable && !equip.sealable" class="{{equip.tradable ? '' : 'faded-text'}}">{{equip.tradable ? 'Sealed' : 'Untradable'}}</div>

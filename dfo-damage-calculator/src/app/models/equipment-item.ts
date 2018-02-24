@@ -254,9 +254,9 @@ export class EquipmentItem {
         this.set_effect_id = equip['set_effect_id'];
     
         //Equipment morphability
-        this.tradable = this.initializeBooleanValue(equip['tradable'], this.baseTradability);
-        this.sealable = this.initializeBooleanValue(equip['sealable'], this.baseSealability);
-        this.compoundable = this.initializeBooleanValue(equip['compoundable'], this.baseCompoundability);
+        this.tradable = this.initializeBooleanValue(equip['tradable'], this.baseTradability.bind(this));
+        this.sealable = this.initializeBooleanValue(equip['sealable'], this.baseSealability.bind(this));
+        this.compoundable = this.initializeBooleanValue(equip['compoundable'], this.baseCompoundability.bind(this));
         this.transcendable = this.initializeBooleanValue(equip['transcendable'], function() { return true });
         this.storable = this.initializeBooleanValue(equip['storable'], function() { return true });
         this.disassemble = this.initializeBooleanValue(equip['disassemble'], function() { return true });
@@ -463,7 +463,7 @@ export class EquipmentItem {
     public bonusExorcism(): number {
         let exoConstants = Constants.bonusExorcismVariables;
         let ceRarity: number = exoConstants.reinforcement.ceRarity[Constants.itemRarity[this.rarity].computerize()];
-        let ceCategory: number = exoConstants.reinforcement.ceCategory[Constants.equipmentType[this.type].computerize()];
+        let ceCategory: number = exoConstants.reinforcement.ceCategory[this.type.computerize()];
         let level: number = this.isRefinedMoreThanBoost() ? exoConstants.refinement.reinforcementLevelEquivalent[this.refine_level] : this.boost_level;
         return level * ceRarity * ceCategory;
     }
