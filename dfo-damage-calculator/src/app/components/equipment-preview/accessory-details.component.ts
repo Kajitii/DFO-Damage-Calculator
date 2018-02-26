@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { EquipmentItem } from '../../models/equipment-item';
+import { EquipmentItem } from '../../models/equipment/equipment-item';
 import { Constants } from '../../constants';
 import { Utils } from '../../utils';
 

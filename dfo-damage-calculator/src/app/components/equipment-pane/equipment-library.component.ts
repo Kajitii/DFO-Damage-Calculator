@@ -1,18 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Constants } from '../constants';
-import { EquipmentItem } from '../models/equipment-item';
-import { WeaponItem } from '../models/weapon-item';
-import { ArmorItem } from '../models/armor-item';
-import { AccessoryItem } from '../models/accessory-item';
-import { SpecialAccessoryItem } from '../models/special-accessory-item';
+import { Constants } from '../../constants';
+import { EquipmentItem } from '../../models/equipment/equipment-item';
+import { WeaponItem } from '../../models/equipment/weapon-item';
+import { ArmorItem } from '../../models/equipment/armor-item';
+import { AccessoryItem } from '../../models/equipment/accessory-item';
+import { SpecialAccessoryItem } from '../../models/equipment/special-accessory-item';
 
 type EquipmentCategory = DFO_Constants.EquipmentCategory;
 
 @Component({
     selector: 'equipment-library',
     templateUrl: './equipment-library.component.html',
-    styleUrls: ['./equipment-library.component.less', 'forms.less']
+    styleUrls: ['./equipment-library.component.less', '../forms.less']
 })
 
 export class EquipmentLibrary implements OnInit {

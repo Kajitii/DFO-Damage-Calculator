@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { EquipmentItem } from '../models/equipment-item';
+import { EquipmentItem } from '../../models/equipment/equipment-item';
 
-import { Constants } from '../constants';
-import { Utils } from '../utils';
+import { Constants } from '../../constants';
+import { Utils } from '../../utils';
 
 @Component({
     selector: 'equipment-editor',
     templateUrl: './equipment-editor.component.html',
-    styleUrls: ['./equipment-editor.component.less', 'forms.less']
+    styleUrls: ['./equipment-editor.component.less', '../forms.less']
 })
 
 export class EquipmentEditor implements OnInit {

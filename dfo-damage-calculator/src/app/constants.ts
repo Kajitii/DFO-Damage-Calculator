@@ -258,6 +258,26 @@ export namespace Constants {
         }
     ]
 
+    /* Emblem color
+     * Rainbow emblems can be inserted into any chromatic emblem slot.
+     * Rainbow emblem slots can take any chromatic colored emblem.
+     */
+    export enum emblemColor {
+        Red = 'Red',
+        Yellow = 'Yellow',
+        Green = 'Green',
+        Blue = 'Blue',
+        Rainbow = 'Rainbow',
+        Platinum = 'Platinum'
+    }
+
+    // Artifact color
+    export enum artifactColor {
+        Red = 'Red',
+        Blue = 'Blue',
+        Green = 'Green'
+    }
+
     export enum equipmentSlot {
         Weapon,
         Top,

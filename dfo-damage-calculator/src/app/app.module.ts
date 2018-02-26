@@ -8,8 +8,8 @@ import { RoundNumberPipe } from './pipes/round-number.pipe';
 import { SignedNumberPipe } from './pipes/signed-number.pipe';
 
 // Components
-import { EquipmentEditor } from './components/equipment-editor.component';
-import { EquipmentLibrary } from './components/equipment-library.component';
+import { EquipmentEditor } from './components/equipment-pane/equipment-editor.component';
+import { EquipmentLibrary } from './components/equipment-pane/equipment-library.component';
 
 // Equipment Preview
 import { WeaponDetails } from './components/equipment-preview/weapon-details.component';

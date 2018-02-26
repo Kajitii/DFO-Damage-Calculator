@@ -1,4 +1,4 @@
-import { Constants } from '../constants';
+import { Constants } from '../../constants';
 import { EquipmentItem } from "./equipment-item";
 
 type WeaponSpeed = Constants.weaponSpeed;

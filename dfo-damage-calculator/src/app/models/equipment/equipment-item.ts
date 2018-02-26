@@ -1,5 +1,6 @@
-import { Constants } from '../constants';
-import { Utils } from '../utils';
+import { Constants } from '../../constants';
+import { BaseStatisticsBlock } from '../base-statistics-block';
+import { Utils } from '../../utils';
 
 type Amplification = Constants.amplification;
 type ItemRarity = Constants.itemRarity;
@@ -13,7 +14,7 @@ let qualityStrings = [
     'Superior'
 ];
 
-export class EquipmentItem {
+export class EquipmentItem extends BaseStatisticsBlock {
 
     //Equipment basic properties
     icon:string;
@@ -26,93 +27,8 @@ export class EquipmentItem {
     subtype2:string;
     class_category:boolean[];
   
-    //Equipment attack stats
-    physical_attack:number;
-    magical_attack:number;
-    independent_attack:number;
-  
-    //Equipment defense stats
-    physical_defense:number;
-    magical_defense:number;
-  
-    //Equipment primary stats
-    strength:number;
-    intelligence:number;
-    vitality:number;
-    spirit:number;
-  
     //Equipment exorcism
     exorcism:number;
-  
-    //Equipment secondary stats
-    hp_max:number;
-    mp_max:number;
-    hp_recovery:number; //per minute
-    mp_recovery:number; //per minute
-    attack_speed:number;
-    move_speed:number;
-    cast_speed:number;
-    jump_strength:number;
-    evasion:number;
-    physical_crit_chance:number;
-    magical_crit_chance:number;
-    rear_physical_crit_chance:number;
-    rear_magical_crit_chance:number;
-    hit_recovery:number;
-    hit_rate:number;
-    inventory_weight_limit:number;
-  
-    //Equipment elemental stats
-    has_element_mod:boolean; //true if any of the below are not 0 or null
-    fire_element:number;
-    shadow_element:number;
-    water_element:number;
-    light_element:number;
-    all_element:number;
-    inflict_fire:boolean;
-    inflict_shadow:boolean;
-    inflict_water:boolean;
-    inflict_light:boolean;
-    fire_resist:number;
-    shadow_resist:number;
-    water_resist:number;
-    light_resist:number;
-    all_resist:number;
-  
-    //Equipment abnormal stats
-    has_status_mod:boolean; //true if any of the below are not 0 or null
-    poison_level:number;
-    shock_level:number;
-    bleed_level:number;
-    curse_level:number;
-    petrify_level:number;
-    burning_level:number;
-    stun_level:number;
-    slow_level:number;
-    poison_damage:number;
-    shock_damage:number;
-    bleed_damage:number;
-    burning_damage:number;
-    poison_tolerance:number;
-    shock_tolerance:number;
-    bleed_tolerance:number;
-    curse_tolerance:number;
-    petrify_tolerance:number;
-    burning_tolerance:number;
-    stun_tolerance:number;
-    slow_tolerance:number;
-  
-    //Equipment damage modifiers
-    skill_attack:number;
-    all_attack:number;
-    elenore:number;
-    smash:number;
-    additional_critical_damage:number;
-    critical_damage_smash:number;
-    primary_stat_mod:number;
-    physical_attack_mod:number;
-    magical_attack_mod:number;
-    independent_attack_mod:number;
   
     //Equipment descriptions
     description:string;
@@ -143,6 +59,7 @@ export class EquipmentItem {
     price:number;
 
     constructor(equip:object) {
+        super(equip);
 
         this.icon = equip['icon'];
         this.name = equip['name'];
@@ -154,91 +71,8 @@ export class EquipmentItem {
         this.subtype2 = equip['subtype2'];
         this.class_category = this.initializeClassCategory(equip['class_category']);
     
-        //Equipment attack stats
-        this.physical_attack = equip['physical_attack'] || 0;
-        this.magical_attack = equip['magical_attack'] || 0;
-        this.independent_attack = equip['independent_attack'] || 0;
-    
-        //Equipment defense stats
-        this.physical_defense = equip['physical_defense'] || 0;
-        this.magical_defense = equip['magical_defense'] || 0;
-    
-        //Equipment primary stats
-        this.strength = equip['strength'] || 0;
-        this.intelligence = equip['intelligence'] || 0;
-        this.vitality = equip['vitality'] || 0;
-        this.spirit = equip['spirit'] || 0;
-    
         //Equipment exorcism
         this.exorcism = equip['exorcism'] || this.baseExorcism();
-    
-        //Equipment secondary stats
-        this.hp_max = equip['hp_max'] || 0;
-        this.mp_max = equip['mp_max'] || 0;
-        this.hp_recovery = equip['hp_recovery'] || 0;
-        this.mp_recovery = equip['mp_recovery'] || 0;
-        this.attack_speed = equip['attack_speed'] || 0;
-        this.move_speed = equip['move_speed'] || 0;
-        this.cast_speed = equip['cast_speed'] || 0;
-        this.jump_strength = equip['jump_strength'] || 0;
-        this.evasion = equip['evasion'] || 0;
-        this.physical_crit_chance = equip['physical_crit_chance'] || 0;
-        this.magical_crit_chance = equip['magical_crit_chance'] || 0;
-        this.rear_physical_crit_chance = equip['rear_physical_crit_chance'] || 0;
-        this.rear_magical_crit_chance = equip['rear_magical_crit_chance'] || 0;
-        this.hit_recovery = equip['hit_recovery'] || 0;
-        this.hit_rate = equip['hit_rate'] || 0;
-        this.inventory_weight_limit = equip['inventory_weight_limit'] || 0;
-    
-        //Equipment elemental stats
-        this.fire_element = equip['fire_element'] || 0;
-        this.shadow_element = equip['shadow_element'] || 0;
-        this.water_element = equip['water_element'] || 0;
-        this.light_element = equip['light_element'] || 0;
-        this.all_element = equip['all_element'] || 0;
-        this.inflict_fire = equip['inflict_fire'] || 0;
-        this.inflict_shadow = equip['inflict_shadow'] || 0;
-        this.inflict_water = equip['inflict_water'] || 0;
-        this.inflict_light = equip['inflict_light'] || 0;
-        this.fire_resist = equip['fire_resist'] || 0;
-        this.shadow_resist = equip['shadow_resist'] || 0;
-        this.water_resist = equip['water_resist'] || 0;
-        this.light_resist = equip['light_resist'] || 0;
-        this.all_resist = equip['all_resist'] || 0;
-    
-        //Equipment abnormal stats
-        this.poison_level = equip['poison_level'] || 0;
-        this.shock_level = equip['shock_level'] || 0;
-        this.bleed_level = equip['bleed_level'] || 0;
-        this.curse_level = equip['curse_level'] || 0;
-        this.petrify_level = equip['petrify_level'] || 0;
-        this.burning_level = equip['burning_level'] || 0;
-        this.stun_level = equip['stun_level'] || 0;
-        this.slow_level = equip['slow_level'] || 0;
-        this.poison_damage = equip['poison_damage'] || 0;
-        this.shock_damage = equip['shock_damage'] || 0;
-        this.bleed_damage = equip['bleed_damage'] || 0;
-        this.burning_damage = equip['burning_damage'] || 0;
-        this.poison_tolerance = equip['poison_tolerance'] || 0;
-        this.shock_tolerance = equip['shock_tolerance'] || 0;
-        this.bleed_tolerance = equip['bleed_tolerance'] || 0;
-        this.curse_tolerance = equip['curse_tolerance'] || 0;
-        this.petrify_tolerance = equip['petrify_tolerance'] || 0;
-        this.burning_tolerance = equip['burning_tolerance'] || 0;
-        this.stun_tolerance = equip['stun_tolerance'] || 0;
-        this.slow_tolerance = equip['slow_tolerance'] || 0;
-    
-        //Equipment damage modifiers
-        this.skill_attack = equip['skill_attack'] || 0;
-        this.all_attack = equip['all_attack'] || 0;
-        this.elenore = equip['elenore'] || 0;
-        this.smash = equip['smash'] || 0;
-        this.additional_critical_damage = equip['additional_critical_damage'] || 0;
-        this.critical_damage_smash = equip['critical_damage_smash'] || 0;
-        this.primary_stat_mod = equip['primary_stat_mod'] || 0;
-        this.physical_attack_mod = equip['physical_attack_mod'] || 0;
-        this.magical_attack_mod = equip['magical_attack_mod'] || 0;
-        this.independent_attack_mod = equip['independent_attack_mod'] || 0;
     
         //Equipment descriptions
         this.description = equip['description'];

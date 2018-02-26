@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { WeaponItem } from '../../models/weapon-item';
+import { WeaponItem } from '../../models/equipment/weapon-item';
 import { Constants } from '../../constants';
 import { Utils } from '../../utils';
 

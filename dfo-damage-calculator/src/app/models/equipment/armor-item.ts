@@ -1,4 +1,4 @@
-import { Constants } from '../constants';
+import { Constants } from '../../constants';
 import { EquipmentItem } from './equipment-item';
 
 export class ArmorItem extends EquipmentItem {
