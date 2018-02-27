@@ -8,7 +8,7 @@ import { Utils } from '../../utils';
     selector: 'equipment-details-title',
     template: `
         <div class="equipment-details-title">
-            <div class="dfo-icon float-left"></div>
+            <div class="dfo-icon float-left" [style.background-image]="'url(' + equip.icon + ')'"></div>
             <span class="rarity-{{(itemRarities[equip.rarity] || 'none') | lowercase}}-text"><span *ngIf="equip.boost_level">{{equip.boost_level | signednumber}} </span>{{equip.name}}</span>
         </div>
     `,

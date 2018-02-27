@@ -43,6 +43,19 @@ export class EquipmentEditor implements OnInit {
         return speeds.map(t => t.humanize());
     }
 
+    onIconChange(event): void {
+        let fileList: FileList = event.target.files;
+        if (fileList.length > 0) {
+            let file: File = fileList[0];
+            let reader: FileReader = new FileReader();
+            let equip = this.equip;
+            reader.onloadend = function() {
+                equip.icon = reader.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
     onRarityChange(value: Constants.itemRarity): void {
         if (value == Constants.itemRarity.Common || value == Constants.itemRarity.Uncommon) {
             if (!this.ampTypeStored) {

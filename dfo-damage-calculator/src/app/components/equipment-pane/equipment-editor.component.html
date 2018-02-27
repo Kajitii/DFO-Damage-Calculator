@@ -1,6 +1,10 @@
 <div *ngIf="equip" class="equipment-editor">
     <div class="editor container">
         <div class="form-row">
+            <div class="form-col-25"><label for="equip-icon">Icon:</label></div><!--
+            --><div class="form-col-75"><input id="equip-icon" type="file" placeholder="Upload icon" accept=".png,.jpg,.jpeg,.gif,.bmp" (change)="onIconChange($event)"></div>
+        </div>
+        <div class="form-row">
             <div class="form-col-25"><label for="name">Name:</label></div><!--
             --><div class="form-col-75"><input id="name" [(ngModel)]="equip.name" type="text" placeholder="Equipment Name" required></div>
         </div>
