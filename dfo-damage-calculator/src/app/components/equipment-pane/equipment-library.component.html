@@ -1,5 +1,9 @@
-<div class="equipment-library">
-    <div class="library container">
+<div id="equipment-library">
+    <div id="equipment-library-controls">
+        <input type="button" value="New Equipment" (click)="openNewEquipmentForm()">
+    </div>
+    <hr />
+    <div id="new-item-form" [class.collapse]="!showNewEquipmentForm">
         <div class="form-row">
             <div class="form-col-25"><label for="newname">Name:</label></div><!--
             --><div class="form-col-75"><input id="newname" [(ngModel)]="equipmentName" type="text"></div>
@@ -22,14 +26,19 @@
                 <option *ngFor="let type of equipmentSubtype1.values" [value]="type">{{type}}</option>
             </select></div>
         </div>
-        <input type="button" value="Create" (click)="onCreate()">
-        <div>
-            <ul>
-                <li *ngFor="let str of foobar">{{str}}</li>
-            </ul>
-        </div>
+        <input type="button" value="Create" (click)="createNewEquipment()">
+        <input type="button" value="Cancel" (click)="cancelNewEquipmentForm()">
+        <hr />
     </div>
-    <div class="container">
-        <equipment-editor [equip]="equipment" (onSave)="onSave($event)"></equipment-editor>
+    <div id="equipment-catalogue">
+        <div *ngIf="equipmentLibrary.length === 0">
+            It appears that you don't have anything in your equipment library.  Click on 'new' above to get started.
+        </div>
+        <div *ngFor="let equip of equipmentLibrary">
+            <div class="equipment-card">
+                <equipment-details-title [equip]="equip"></equipment-details-title>
+                <button type="button" (click)="equipEquipment(equip)">Equip</button>
+            </div>
+        </div>
     </div>
 </div>

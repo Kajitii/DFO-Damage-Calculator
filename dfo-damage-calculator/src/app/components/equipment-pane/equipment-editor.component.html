@@ -1,312 +1,304 @@
 <div *ngIf="equip" class="equipment-editor">
-    <div class="editor container">
-        <div class="form-row">
-            <div class="form-col-25"><label for="equip-icon">Icon:</label></div><!--
-            --><div class="form-col-75"><input id="equip-icon" type="file" placeholder="Upload icon" accept=".png,.jpg,.jpeg,.gif,.bmp" (change)="onIconChange($event)"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-25"><label for="name">Name:</label></div><!--
-            --><div class="form-col-75"><input id="name" [(ngModel)]="equip.name" type="text" placeholder="Equipment Name" required></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-25"><label for="rarity">Rarity:</label></div><!--
-            --><div class="form-col-25"><select id="rarity" [(ngModel)]="equip.rarity" #raritySelector (change)="onRarityChange(raritySelector.value)">
-                <option *ngFor="let rarity of itemRarities; index as i" [value]="i">{{rarity}}</option>
-            </select></div><!--
-            --><div class="form-col-15"><label for="level">Level:</label></div><!--
-            --><div class="form-col-10"><input id="level" [(ngModel)]="equip.level" type="number" min="0" (change)="onLevelChange()"></div><!--
-            --><div class="form-col-15"><label for="quality">Quality:</label></div><!--
-            --><div class="form-col-10"><input id="quality" [(ngModel)]="equip.quality" type="number" min="1" max="100"></div>
-        </div>
-        <hr />
-        <div class="form-row">
-            <div *ngFor="let category of classCategories; index as i" class="form-col-30">
-                <label>{{category}}</label>
-                <input [(ngModel)]="equip.class_category[i]" type="checkbox">
-            </div>
-        </div>
-        <hr />
-        <div class="form-row">
-            <div class="form-col-30">
-                <label>Tradable</label>
-                <input [(ngModel)]="equip.tradable" type="checkbox">
-            </div><div class="form-col-30">
-                <label>Sealable</label>
-                <input [(ngModel)]="equip.sealable" type="checkbox">
-            </div><div class="form-col-30">
-                <label>Compoundable</label>
-                <input [(ngModel)]="equip.compoundable" type="checkbox">
-            </div><div class="form-col-30">
-                <label>Transcendable</label>
-                <input [(ngModel)]="equip.transcendable" type="checkbox">
-            </div><div class="form-col-30">
-                <label>Storable</label>
-                <input [(ngModel)]="equip.storable" type="checkbox">
-            </div><div class="form-col-30">
-                <label>Grindable</label>
-                <input [(ngModel)]="equip.disassemble" type="checkbox">
-            </div>
-        </div>
-        <hr />
-        <div *ngIf="equip.isWeapon() || equip.subtype1 === 'Earring'">
-            <div class="form-row">
-                <div class="form-col-40"><label for="boost">{{equip.amplification !== 'None' ? 'Amplification' : 'Reinforcement'}}:</label></div><!--
-                --><div class="form-col-10"><input id="boost" [(ngModel)]="equip.boost_level" type="number"></div><!--
-                --><div class="form-col-30"><label for="amplify" title="Amplification Stat">Amp Stat:</label></div><!--
-                --><div class="form-col-20"><select id="amplify" [(ngModel)]="equip.amplification" [disabled]="!equip.canBeAmplified()">
-                    <option *ngFor="let amp of amplificationTypes" [ngValue]="amp">{{amp}}</option>
-                </select></div>
-            </div>
-            <div *ngIf="equip.isAmplified()" class="form-row">
-                <div class="form-col-50"></div><!--
-                --><div class="form-col-40"><label for="bonus_dimensional_stat" title="Stats gained from amplification">Bonus Dimensional Stat:</label></div><!--
-                --><div class="form-col-10"><input id="bonus_dimensional_stat" [(ngModel)]="equip.bonus_dimensional_stat" type="number"></div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-30"><label for="physical_attack" title="Base physical attack">Physical Attack:</label></div><!--
-            --><div class="form-col-20"><input id="physical_attack" [(ngModel)]="equip.physical_attack" type="number"></div><!--
-            --><div class="form-col-30"><label for="magical_attack" title="Base physical attack">Magical Attack:</label></div><!--
-            --><div class="form-col-20"><input id="magical_attack" [(ngModel)]="equip.magical_attack" type="number"></div>
-        </div>
-        <div *ngIf="equip.isWeapon()" class="form-row">
-            <div class="form-col-30"><label for="bonus_physical_attack" title="Bonus physical attack from reinforcement or amplification">Bonus Physical Attack:</label></div><!--
-            --><div class="form-col-20"><input id="bonus_physical_attack" [(ngModel)]="equip.bonus_physical_attack" type="number"></div><!--
-            --><div class="form-col-30"><label for="bonus_magical_attack" title="Bonus magical attack from reinforcement or amplification">Bonus Magical Attack:</label></div><!--
-            --><div class="form-col-20"><input id="bonus_magical_attack" [(ngModel)]="equip.bonus_magical_attack" type="number"></div>
-        </div>
-        <div class="form-row">
-            <div *ngIf="equip.isWeapon()" class="form-col-40"><label for="refine">Refinement:</label></div><!--
-            --><div *ngIf="equip.isWeapon()" class="form-col-10"><input id="refine" [(ngModel)]="equip.refine_level" type="number"></div><!--
-            --><div class="form-col-30"><label for="independent_attack" title="Base independent attack">Independent Attack:</label></div><!--
-            --><div class="form-col-20"><input id="independent_attack" [(ngModel)]="equip.independent_attack" type="number"></div>
-        </div>
-        <div *ngIf="equip.isWeapon()" class="form-row">
-            <div class="form-col-40"><label for="bonus_abnormal_status_attack" title="Bonus abnormal status attack from refinement">Abnormal Status Attack:</label></div><!--
-            --><div class="form-col-10"><input id="bonus_abnormal_status_attack" [(ngModel)]="equip.bonus_abnormal_status_attack" type="number" step="0.1"></div><!--
-            --><div class="form-col-40"><label for="bonus_independent_attack" title="Bonus independent attack from refinement">Bonus Independent Attack:</label></div><!--
-            --><div class="form-col-10"><input id="bonus_independent_attack" [(ngModel)]="equip.bonus_independent_attack" type="number"></div>
-        </div>
-        <div *ngIf="equip.subtype1 === 'Earring'" class="form-row">
-            <div class="form-col-40"><label for="bonus_attack_stats" title="Bonus attack from reinforcement or amplification">Bonus Attack Stats:</label></div><!--
-            --><div class="form-col-10"><input id="bonus_attack_stats" [(ngModel)]="equip.bonus_attack_stats" type="number"></div>
-        </div>
-        <hr />
-        <div *ngIf="equip.isArmor() || equip.isAccessory()">
-            <div class="form-row">
-                <div class="form-col-40"><label for="boost">{{equip.amplification !== 'None' ? 'Amplification' : 'Reinforcement'}}:</label></div><!--
-                --><div class="form-col-10"><input id="boost" [(ngModel)]="equip.boost_level" type="number"></div><!--
-                --><div class="form-col-30"><label for="amplify" title="Amplification Stat">Amp Stat:</label></div><!--
-                --><div class="form-col-20"><select id="amplify" [(ngModel)]="equip.amplification" [disabled]="!equip.canBeAmplified()">
-                    <option *ngFor="let amp of amplificationTypes" [ngValue]="amp">{{amp}}</option>
-                </select></div>
-            </div>
-            <div *ngIf="equip.isAmplified()" class="form-row">
-                <div class="form-col-50"></div><!--
-                --><div class="form-col-40"><label for="bonus_dimensional_stat" title="Stats gained from amplification">Bonus Dimensional Stat:</label></div><!--
-                --><div class="form-col-10"><input id="bonus_dimensional_stat" [(ngModel)]="equip.bonus_dimensional_stat" type="number"></div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-30"><label for="physical_defense">Physical Defense:</label></div><!--
-            --><div class="form-col-20"><input id="physical_defense" [(ngModel)]="equip.physical_defense" type="number"></div><!--
-            --><div class="form-col-30"><label for="magical_defense">Magical Defense:</label></div><!--
-            --><div class="form-col-20"><input id="magical_defense" [(ngModel)]="equip.magical_defense" type="number"></div>
-        </div>
-        <div *ngIf="equip.isArmor()" class="form-row">
-            <div class="form-col-40"><label for="bonus_percent_physical_reduction" title="Percent physical damage reduction from reinforcement or amplification">Percent Physical Reduction:</label></div><!--
-            --><div class="form-col-10"><input id="bonus_percent_physical_reduction" [(ngModel)]="equip.bonus_percent_physical_reduction" type="number" step="0.01"></div><!--
-            --><div class="form-col-40"><label for="bonus_flat_physical_reduction" title="Flat physical damage reduction from reinforcement or amplification">Flat Physical Reduction:</label></div><!--
-            --><div class="form-col-10"><input id="bonus_flat_physical_reduction" [(ngModel)]="equip.bonus_flat_physical_reduction" type="number"></div>
-        </div>
-        <div *ngIf="equip.isAccessory()" class="form-row">
-            <div class="form-col-40"><label for="bonus_percent_magical_reduction" title="Percent magical damage reduction from reinforcement or amplification">Percent Magical Reduction:</label></div><!--
-            --><div class="form-col-10"><input id="bonus_percent_magical_reduction" [(ngModel)]="equip.bonus_percent_magical_reduction" type="number" step="0.01"></div><!--
-            --><div class="form-col-40"><label for="bonus_flat_magical_reduction" title="Flat magical damage reduction from reinforcement or amplification">Flat Magical Reduction:</label></div><!--
-            --><div class="form-col-10"><input id="bonus_flat_magical_reduction" [(ngModel)]="equip.bonus_flat_magical_reduction" type="number"></div>
-        </div>
-        <hr />
-        <div *ngIf="equip.isSpecialAccessory() && equip.subtype1 !== 'Earring'">
-            <div class="form-row">
-                <div class="form-col-40"><label for="boost">{{equip.amplification !== 'None' ? 'Amplification' : 'Reinforcement'}}:</label></div><!--
-                --><div class="form-col-10"><input id="boost" [(ngModel)]="equip.boost_level" type="number"></div><!--
-                --><div class="form-col-30"><label for="amplify" title="Amplification Stat">Amp Stat:</label></div><!--
-                --><div class="form-col-20"><select id="amplify" [(ngModel)]="equip.amplification" [disabled]="!equip.canBeAmplified()">
-                    <option *ngFor="let amp of amplificationTypes" [ngValue]="amp">{{amp}}</option>
-                </select></div>
-            </div>
-            <div *ngIf="equip.isAmplified()" class="form-row">
-                <div class="form-col-50"></div><!--
-                --><div class="form-col-40"><label for="bonus_dimensional_stat" title="Stats gained from amplification">Bonus Dimensional Stat:</label></div><!--
-                --><div class="form-col-10"><input id="bonus_dimensional_stat" [(ngModel)]="equip.bonus_dimensional_stat" type="number"></div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-10"><label for="strength" title="Strength">Str:</label></div><!--
-            --><div class="form-col-10"><input id="strength" [(ngModel)]="equip.strength" type="number"></div><!--
-            --><div class="form-col-10"><label for="intelligence" title="Intelligence">Int:</label></div><!--
-            --><div class="form-col-10"><input id="intelligence" [(ngModel)]="equip.intelligence" type="number"></div><!--
-            --><div class="form-col-10"><label for="vitality" title="Vitality">Vit:</label></div><!--
-            --><div class="form-col-10"><input id="vitality" [(ngModel)]="equip.vitality" type="number"></div><!--
-            --><div class="form-col-10"><label for="spirit" title="Spirit">Spr:</label></div><!--
-            --><div class="form-col-10"><input id="spirit" [(ngModel)]="equip.spirit" type="number"></div>
-        </div>
-        <div *ngIf="equip.isSpecialAccessory() && equip.subtype1 !== 'Earring'" class="form-row">
-            <div class="form-col-40"><label for="bonus_primary_stats" title="Bonus stats from reinforcement or amplification">Bonus Primary Stats:</label></div><!--
-            --><div class="form-col-10"><input id="bonus_primary_stats" [(ngModel)]="equip.bonus_primary_stats" type="number"></div>
-        </div>
-        <div *ngIf="equip.isWeapon()">
-            <hr />
-            <div class="form-row">
-                <div class="form-col-40"><label for="speed">Weapon Speed:</label></div><!--
-                --><div class="form-col-20"><select id="speed" [(ngModel)]="equip.speed">
-                    <option *ngFor="let speed of weaponSpeeds; index as i" [value]="i">{{speed}}</option>
-                </select></div>
-            </div>
-            <div class="form-row">
-                <div class="form-col-40"><label for="physical_skill_mp">Physical Skill MP:</label></div><!--
-                --><div class="form-col-10"><input id="physical_skill_mp" [(ngModel)]="equip.physical_skill_mp" type="number"></div><!--
-                --><div class="form-col-40"><label for="magical_skill_mp">Magical Skill MP:</label></div><!--
-                --><div class="form-col-10"><input id="magical_skill_mp" [(ngModel)]="equip.magical_skill_mp" type="number"></div>
-            </div>
-            <div class="form-row">
-                <div class="form-col-40"><label for="physical_skill_cooldown">Physical Skill Cooldown:</label></div><!--
-                --><div class="form-col-10"><input id="physical_skill_cooldown" [(ngModel)]="equip.physical_skill_cooldown" type="number"></div><!--
-                --><div class="form-col-40"><label for="magical_skill_cooldown">Magical Skill Cooldown:</label></div><!--
-                --><div class="form-col-10"><input id="magical_skill_cooldown" [(ngModel)]="equip.magical_skill_cooldown" type="number"></div>
-            </div>
-        </div>
-        <hr />
-        <div class="form-row">
-            <div class="form-col-40"><label for="hp_max" title="Maximum HP">HP:</label></div><!--
-            --><div class="form-col-10"><input id="hp_max" [(ngModel)]="equip.hp_max" type="number"></div><!--
-            --><div class="form-col-40"><label for="mp_max" title="Maximum MP">MP:</label></div><!--
-            --><div class="form-col-10"><input id="mp_max" [(ngModel)]="equip.mp_max" type="number"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-40"><label for="hp_recovery" title="HP Recovery per Minute">HP Recovery:</label></div><!--
-            --><div class="form-col-10"><input id="hp_recovery" [(ngModel)]="equip.hp_recovery" type="number"></div><!--
-            --><div class="form-col-40"><label for="mp_recovery" title="MP Recovery per Minute">MP Recovery:</label></div><!--
-            --><div class="form-col-10"><input id="mp_recovery" [(ngModel)]="equip.mp_recovery" type="number"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-40"><label for="attack_speed" title="Attack Speed">Attack Speed:</label></div><!--
-            --><div class="form-col-10"><input id="attack_speed" [(ngModel)]="equip.attack_speed" type="number"></div><!--
-            --><div class="form-col-40"><label for="cast_speed" title="Cast Speed">Cast Speed:</label></div><!--
-            --><div class="form-col-10"><input id="cast_speed" [(ngModel)]="equip.cast_speed" type="number"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-40"><label for="move_speed" title="Movement Speed">Move Speed:</label></div><!--
-            --><div class="form-col-10"><input id="move_speed" [(ngModel)]="equip.move_speed" type="number"></div><!--
-            --><div class="form-col-40"><label for="jump_strength" title="Jump Strength">Jump Strength:</label></div><!--
-            --><div class="form-col-10"><input id="jump_strength" [(ngModel)]="equip.jump_strength" type="number"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-40"><label for="evasion" title="Evasion Rate">Evasion Rate:</label></div><!--
-            --><div class="form-col-10"><input id="evasion" [(ngModel)]="equip.evasion" type="number"></div><!--
-            --><div class="form-col-40"><label for="hit_rate" title="Hit Rate Accuracy">Hit Rate:</label></div><!--
-            --><div class="form-col-10"><input id="hit_rate" [(ngModel)]="equip.hit_rate" type="number"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-40"><label for="physical_crit_chance" title="Physical Critical Chance">Physical Critical Chance:</label></div><!--
-            --><div class="form-col-10"><input id="physical_crit_chance" [(ngModel)]="equip.physical_crit_chance" type="number"></div><!--
-            --><div class="form-col-40"><label for="magical_crit_chance" title="Magical Critical Chance">Magical Critical Chance:</label></div><!--
-            --><div class="form-col-10"><input id="magical_crit_chance" [(ngModel)]="equip.magical_crit_chance" type="number"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-40"><label for="hit_recovery" title="Recovery Rate from Enemy Attacks">Hit Recovery:</label></div><!--
-            --><div class="form-col-10"><input id="hit_recovery" [(ngModel)]="equip.hit_recovery" type="number"></div><!--
-            --><div class="form-col-40"><label for="inventory_weight_limit" title="Inventory Maximum Weight Limit">Inventory Weight Limit:</label></div><!--
-            --><div class="form-col-10"><input id="inventory_weight_limit" [(ngModel)]="equip.inventory_weight_limit" type="number"></div>
-        </div>
-        <hr />
-        <div class="form-row">
-            <div class="form-col-20"><label for="inflict_fire" title="Inflict Fire Element Damage">Inflict Fire:</label></div><!--
-            --><div class="form-col-5"><input id="inflict_fire" [(ngModel)]="equip.inflict_fire" type="checkbox"></div><!--
-            --><div class="form-col-20"><label for="inflict_shadow" title="Inflict Shadow Element Damage">Inflict Shadow:</label></div><!--
-            --><div class="form-col-5"><input id="inflict_shadow" [(ngModel)]="equip.inflict_shadow" type="checkbox"></div><!--
-            --><div class="form-col-20"><label for="inflict_water" title="Inflict Water Element Damage">Inflict Water:</label></div><!--
-            --><div class="form-col-5"><input id="inflict_water" [(ngModel)]="equip.inflict_water" type="checkbox"></div><!--
-            --><div class="form-col-20"><label for="inflict_light" title="Inflict Light Element Damage">Inflict Light:</label></div><!--
-            --><div class="form-col-5"><input id="inflict_light" [(ngModel)]="equip.inflict_light" type="checkbox"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-40"><label for="all_element" title="All Elemental Damage">All Elemental Damage:</label></div><!--
-            --><div class="form-col-10"><input id="all_element" [(ngModel)]="equip.all_element" type="number"></div><!--
-            --><div class="form-col-40"><label for="all_resist" title="All Elemental Resist">All Elemental Resist:</label></div><!--
-            --><div class="form-col-10"><input id="all_resist" [(ngModel)]="equip.all_resist" type="number"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-40"><label for="fire_element" title="Fire Elemental Damage">Fire Element:</label></div><!--
-            --><div class="form-col-10"><input id="fire_element" [(ngModel)]="equip.fire_element" type="number"></div><!--
-            --><div class="form-col-40"><label for="fire_resist" title="Fire Element Resist">Fire Resist:</label></div><!--
-            --><div class="form-col-10"><input id="fire_resist" [(ngModel)]="equip.fire_resist" type="number"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-40"><label for="shadow_element" title="Shadow Elemental Damage">Shadow Element:</label></div><!--
-            --><div class="form-col-10"><input id="shadow_element" [(ngModel)]="equip.shadow_element" type="number"></div><!--
-            --><div class="form-col-40"><label for="shadow_resist" title="Shadow Elemental Resist">Shadow Resist:</label></div><!--
-            --><div class="form-col-10"><input id="shadow_resist" [(ngModel)]="equip.shadow_resist" type="number"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-40"><label for="water_element" title="Water Elemental Damage">Water Element:</label></div><!--
-            --><div class="form-col-10"><input id="water_element" [(ngModel)]="equip.water_element" type="number"></div><!--
-            --><div class="form-col-40"><label for="water_resist" title="Water Elemental Resist">Water Resist:</label></div><!--
-            --><div class="form-col-10"><input id="water_resist" [(ngModel)]="equip.water_resist" type="number"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-40"><label for="light_element" title="Light Elemental Damage">Light Element:</label></div><!--
-            --><div class="form-col-10"><input id="light_element" [(ngModel)]="equip.light_element" type="number"></div><!--
-            --><div class="form-col-40"><label for="light_resist" title="Light Elemental Resist">Light Resist:</label></div><!--
-            --><div class="form-col-10"><input id="light_resist" [(ngModel)]="equip.light_resist" type="number"></div>
-        </div>
-        <hr />
-        <div class="form-row">
-            <div class="form-col-40"><label for="skill_attack" title="Skill Attack">Skill Attack:</label></div><!--
-            --><div class="form-col-10"><input id="skill_attack" [(ngModel)]="equip.skill_attack" type="number"></div><!--
-            --><div class="form-col-40"><label for="all_attack" title="All Attack">All Attack:</label></div><!--
-            --><div class="form-col-10"><input id="all_attack" [(ngModel)]="equip.all_attack" type="number"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-40"><label for="smash" title="Additional Damage">Smash:</label></div><!--
-            --><div class="form-col-10"><input id="smash" [(ngModel)]="equip.smash" type="number"></div><!--
-            --><div class="form-col-40"><label for="elenore" title="Bonus Damage">Elenore:</label></div><!--
-            --><div class="form-col-10"><input id="elenore" [(ngModel)]="equip.elenore" type="number"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-40"><label for="critical_damage_smash" title="Critical Damage">Critical Smash:</label></div><!--
-            --><div class="form-col-10"><input id="critical_damage_smash" [(ngModel)]="equip.critical_damage_smash" type="number"></div><!--
-            --><div class="form-col-40"><label for="additional_critical_damage" title="Additional Critical Damage">Critical Elenore:</label></div><!--
-            --><div class="form-col-10"><input id="additional_critical_damage" [(ngModel)]="equip.additional_critical_damage" type="number"></div>
-        </div>
-        <hr />
-        <div class="form-row">
-            <div class="form-col-30"><label for="full_description" title="Full Description">Full Description:</label></div><!--
-            --><div class="form-col-70"><textarea id="full_description" [(ngModel)]="equip.full_description" rows="10" cols="44" wrap="hard">{{equip.full_description}}</textarea></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-30"><label for="flavor_description" title="Flavor Description">Flavor Description:</label></div><!--
-            --><div class="form-col-70"><textarea id="flavor_description" [(ngModel)]="equip.flavor_description" rows="6" cols="44" wrap="hard">{{equip.flavor_description}}</textarea></div>
-        </div>
-        <hr />
-        <div class="form-row">
-            <div class="form-col-40"><label for="weight" title="Weight in Kilograms">Weight:</label></div><!--
-            --><div class="form-col-10"><input id="weight" [(ngModel)]="equip.weight" type="number" min="0"></div><!--
-            --><div class="form-col-40"><label for="durability" title="Durability">Durability:</label></div><!--
-            --><div class="form-col-10"><input id="durability" [(ngModel)]="equip.durability" type="number" min="0"></div>
-        </div>
-        <div class="form-row">
-            <div class="form-col-25"><label for="price" title="Gold Value">Gold Value:</label></div><!--
-            --><div class="form-col-75"><input id="price" [(ngModel)]="equip.price" type="number" min="0"></div>
-        </div>
-        <div class="form-row">
-            <input type="button" value="Save" (click)="save()">
+    <div class="form-row">
+        <div class="form-col-25"><label for="equip-icon">Icon:</label></div><!--
+        --><div class="form-col-75"><input id="equip-icon" type="file" placeholder="Upload icon" accept=".png,.jpg,.jpeg,.gif,.bmp" (change)="onIconChange($event)"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-25"><label for="name">Name:</label></div><!--
+        --><div class="form-col-75"><input id="name" [(ngModel)]="equip.name" type="text" placeholder="Equipment Name" required></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-25"><label for="rarity">Rarity:</label></div><!--
+        --><div class="form-col-25"><select id="rarity" [(ngModel)]="equip.rarity" #raritySelector (change)="onRarityChange(raritySelector.value)">
+            <option *ngFor="let rarity of itemRarities; index as i" [value]="i">{{rarity}}</option>
+        </select></div><!--
+        --><div class="form-col-15"><label for="level">Level:</label></div><!--
+        --><div class="form-col-10"><input id="level" [(ngModel)]="equip.level" type="number" min="0" (change)="onLevelChange()"></div><!--
+        --><div class="form-col-15"><label for="quality">Quality:</label></div><!--
+        --><div class="form-col-10"><input id="quality" [(ngModel)]="equip.quality" type="number" min="1" max="100"></div>
+    </div>
+    <hr />
+    <div class="form-row">
+        <div *ngFor="let category of classCategories; index as i" class="form-col-30">
+            <label>{{category}}</label>
+            <input [(ngModel)]="equip.class_category[i]" type="checkbox">
         </div>
     </div>
-    <div class="container">
-        <weapon-details *ngIf="equip.type === 'Weapon'" [equip]="equip"></weapon-details>
-        <armor-details *ngIf="equip.type === 'Armor'" [equip]="equip"></armor-details>
-        <accessory-details *ngIf="equip.type === 'Accessory'" [equip]="equip"></accessory-details>
-        <special-accessory-details *ngIf="equip.type === 'Special Accessory'" [equip]="equip"></special-accessory-details>
+    <hr />
+    <div class="form-row">
+        <div class="form-col-30">
+            <label>Tradable</label>
+            <input [(ngModel)]="equip.tradable" type="checkbox">
+        </div><div class="form-col-30">
+            <label>Sealable</label>
+            <input [(ngModel)]="equip.sealable" type="checkbox">
+        </div><div class="form-col-30">
+            <label>Compoundable</label>
+            <input [(ngModel)]="equip.compoundable" type="checkbox">
+        </div><div class="form-col-30">
+            <label>Transcendable</label>
+            <input [(ngModel)]="equip.transcendable" type="checkbox">
+        </div><div class="form-col-30">
+            <label>Storable</label>
+            <input [(ngModel)]="equip.storable" type="checkbox">
+        </div><div class="form-col-30">
+            <label>Grindable</label>
+            <input [(ngModel)]="equip.disassemble" type="checkbox">
+        </div>
+    </div>
+    <hr />
+    <div *ngIf="equip.isWeapon() || equip.subtype1 === 'Earring'">
+        <div class="form-row">
+            <div class="form-col-40"><label for="boost">{{equip.amplification !== 'None' ? 'Amplification' : 'Reinforcement'}}:</label></div><!--
+            --><div class="form-col-10"><input id="boost" [(ngModel)]="equip.boost_level" type="number"></div><!--
+            --><div class="form-col-30"><label for="amplify" title="Amplification Stat">Amp Stat:</label></div><!--
+            --><div class="form-col-20"><select id="amplify" [(ngModel)]="equip.amplification" [disabled]="!equip.canBeAmplified()">
+                <option *ngFor="let amp of amplificationTypes" [ngValue]="amp">{{amp}}</option>
+            </select></div>
+        </div>
+        <div *ngIf="equip.isAmplified()" class="form-row">
+            <div class="form-col-50"></div><!--
+            --><div class="form-col-40"><label for="bonus_dimensional_stat" title="Stats gained from amplification">Bonus Dimensional Stat:</label></div><!--
+            --><div class="form-col-10"><input id="bonus_dimensional_stat" [(ngModel)]="equip.bonus_dimensional_stat" type="number"></div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-30"><label for="physical_attack" title="Base physical attack">Physical Attack:</label></div><!--
+        --><div class="form-col-20"><input id="physical_attack" [(ngModel)]="equip.physical_attack" type="number"></div><!--
+        --><div class="form-col-30"><label for="magical_attack" title="Base magical attack">Magical Attack:</label></div><!--
+        --><div class="form-col-20"><input id="magical_attack" [(ngModel)]="equip.magical_attack" type="number"></div>
+    </div>
+    <div *ngIf="equip.isWeapon()" class="form-row">
+        <div class="form-col-30"><label for="bonus_physical_attack" title="Bonus physical attack from reinforcement or amplification">Bonus Physical Attack:</label></div><!--
+        --><div class="form-col-20"><input id="bonus_physical_attack" [(ngModel)]="equip.bonus_physical_attack" type="number"></div><!--
+        --><div class="form-col-30"><label for="bonus_magical_attack" title="Bonus magical attack from reinforcement or amplification">Bonus Magical Attack:</label></div><!--
+        --><div class="form-col-20"><input id="bonus_magical_attack" [(ngModel)]="equip.bonus_magical_attack" type="number"></div>
+    </div>
+    <div class="form-row">
+        <div *ngIf="equip.isWeapon()" class="form-col-40"><label for="refine">Refinement:</label></div><!--
+        --><div *ngIf="equip.isWeapon()" class="form-col-10"><input id="refine" [(ngModel)]="equip.refine_level" type="number"></div><!--
+        --><div class="form-col-30"><label for="independent_attack" title="Base independent attack">Independent Attack:</label></div><!--
+        --><div class="form-col-20"><input id="independent_attack" [(ngModel)]="equip.independent_attack" type="number"></div>
+    </div>
+    <div *ngIf="equip.isWeapon()" class="form-row">
+        <div class="form-col-40"><label for="bonus_abnormal_status_attack" title="Bonus abnormal status attack from refinement">Abnormal Status Attack:</label></div><!--
+        --><div class="form-col-10"><input id="bonus_abnormal_status_attack" [(ngModel)]="equip.bonus_abnormal_status_attack" type="number" step="0.1"></div><!--
+        --><div class="form-col-40"><label for="bonus_independent_attack" title="Bonus independent attack from refinement">Bonus Independent Attack:</label></div><!--
+        --><div class="form-col-10"><input id="bonus_independent_attack" [(ngModel)]="equip.bonus_independent_attack" type="number"></div>
+    </div>
+    <div *ngIf="equip.subtype1 === 'Earring'" class="form-row">
+        <div class="form-col-40"><label for="bonus_attack_stats" title="Bonus attack from reinforcement or amplification">Bonus Attack Stats:</label></div><!--
+        --><div class="form-col-10"><input id="bonus_attack_stats" [(ngModel)]="equip.bonus_attack_stats" type="number"></div>
+    </div>
+    <hr />
+    <div *ngIf="equip.isArmor() || equip.isAccessory()">
+        <div class="form-row">
+            <div class="form-col-40"><label for="boost">{{equip.amplification !== 'None' ? 'Amplification' : 'Reinforcement'}}:</label></div><!--
+            --><div class="form-col-10"><input id="boost" [(ngModel)]="equip.boost_level" type="number"></div><!--
+            --><div class="form-col-30"><label for="amplify" title="Amplification Stat">Amp Stat:</label></div><!--
+            --><div class="form-col-20"><select id="amplify" [(ngModel)]="equip.amplification" [disabled]="!equip.canBeAmplified()">
+                <option *ngFor="let amp of amplificationTypes" [ngValue]="amp">{{amp}}</option>
+            </select></div>
+        </div>
+        <div *ngIf="equip.isAmplified()" class="form-row">
+            <div class="form-col-50"></div><!--
+            --><div class="form-col-40"><label for="bonus_dimensional_stat" title="Stats gained from amplification">Bonus Dimensional Stat:</label></div><!--
+            --><div class="form-col-10"><input id="bonus_dimensional_stat" [(ngModel)]="equip.bonus_dimensional_stat" type="number"></div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-30"><label for="physical_defense">Physical Defense:</label></div><!--
+        --><div class="form-col-20"><input id="physical_defense" [(ngModel)]="equip.physical_defense" type="number"></div><!--
+        --><div class="form-col-30"><label for="magical_defense">Magical Defense:</label></div><!--
+        --><div class="form-col-20"><input id="magical_defense" [(ngModel)]="equip.magical_defense" type="number"></div>
+    </div>
+    <div *ngIf="equip.isArmor()" class="form-row">
+        <div class="form-col-40"><label for="bonus_percent_physical_reduction" title="Percent physical damage reduction from reinforcement or amplification">Percent Physical Reduction:</label></div><!--
+        --><div class="form-col-10"><input id="bonus_percent_physical_reduction" [(ngModel)]="equip.bonus_percent_physical_reduction" type="number" step="0.01"></div><!--
+        --><div class="form-col-40"><label for="bonus_flat_physical_reduction" title="Flat physical damage reduction from reinforcement or amplification">Flat Physical Reduction:</label></div><!--
+        --><div class="form-col-10"><input id="bonus_flat_physical_reduction" [(ngModel)]="equip.bonus_flat_physical_reduction" type="number"></div>
+    </div>
+    <div *ngIf="equip.isAccessory()" class="form-row">
+        <div class="form-col-40"><label for="bonus_percent_magical_reduction" title="Percent magical damage reduction from reinforcement or amplification">Percent Magical Reduction:</label></div><!--
+        --><div class="form-col-10"><input id="bonus_percent_magical_reduction" [(ngModel)]="equip.bonus_percent_magical_reduction" type="number" step="0.01"></div><!--
+        --><div class="form-col-40"><label for="bonus_flat_magical_reduction" title="Flat magical damage reduction from reinforcement or amplification">Flat Magical Reduction:</label></div><!--
+        --><div class="form-col-10"><input id="bonus_flat_magical_reduction" [(ngModel)]="equip.bonus_flat_magical_reduction" type="number"></div>
+    </div>
+    <hr />
+    <div *ngIf="equip.isSpecialAccessory() && equip.subtype1 !== 'Earring'">
+        <div class="form-row">
+            <div class="form-col-40"><label for="boost">{{equip.amplification !== 'None' ? 'Amplification' : 'Reinforcement'}}:</label></div><!--
+            --><div class="form-col-10"><input id="boost" [(ngModel)]="equip.boost_level" type="number"></div><!--
+            --><div class="form-col-30"><label for="amplify" title="Amplification Stat">Amp Stat:</label></div><!--
+            --><div class="form-col-20"><select id="amplify" [(ngModel)]="equip.amplification" [disabled]="!equip.canBeAmplified()">
+                <option *ngFor="let amp of amplificationTypes" [ngValue]="amp">{{amp}}</option>
+            </select></div>
+        </div>
+        <div *ngIf="equip.isAmplified()" class="form-row">
+            <div class="form-col-50"></div><!--
+            --><div class="form-col-40"><label for="bonus_dimensional_stat" title="Stats gained from amplification">Bonus Dimensional Stat:</label></div><!--
+            --><div class="form-col-10"><input id="bonus_dimensional_stat" [(ngModel)]="equip.bonus_dimensional_stat" type="number"></div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-10"><label for="strength" title="Strength">Str:</label></div><!--
+        --><div class="form-col-10"><input id="strength" [(ngModel)]="equip.strength" type="number"></div><!--
+        --><div class="form-col-10"><label for="intelligence" title="Intelligence">Int:</label></div><!--
+        --><div class="form-col-10"><input id="intelligence" [(ngModel)]="equip.intelligence" type="number"></div><!--
+        --><div class="form-col-10"><label for="vitality" title="Vitality">Vit:</label></div><!--
+        --><div class="form-col-10"><input id="vitality" [(ngModel)]="equip.vitality" type="number"></div><!--
+        --><div class="form-col-10"><label for="spirit" title="Spirit">Spr:</label></div><!--
+        --><div class="form-col-10"><input id="spirit" [(ngModel)]="equip.spirit" type="number"></div>
+    </div>
+    <div *ngIf="equip.isSpecialAccessory() && equip.subtype1 !== 'Earring'" class="form-row">
+        <div class="form-col-40"><label for="bonus_primary_stats" title="Bonus stats from reinforcement or amplification">Bonus Primary Stats:</label></div><!--
+        --><div class="form-col-10"><input id="bonus_primary_stats" [(ngModel)]="equip.bonus_primary_stats" type="number"></div>
+    </div>
+    <div *ngIf="equip.isWeapon()">
+        <hr />
+        <div class="form-row">
+            <div class="form-col-40"><label for="speed">Weapon Speed:</label></div><!--
+            --><div class="form-col-20"><select id="speed" [(ngModel)]="equip.speed">
+                <option *ngFor="let speed of weaponSpeeds; index as i" [value]="i">{{speed}}</option>
+            </select></div>
+        </div>
+        <div class="form-row">
+            <div class="form-col-40"><label for="physical_skill_mp">Physical Skill MP:</label></div><!--
+            --><div class="form-col-10"><input id="physical_skill_mp" [(ngModel)]="equip.physical_skill_mp" type="number"></div><!--
+            --><div class="form-col-40"><label for="magical_skill_mp">Magical Skill MP:</label></div><!--
+            --><div class="form-col-10"><input id="magical_skill_mp" [(ngModel)]="equip.magical_skill_mp" type="number"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-col-40"><label for="physical_skill_cooldown">Physical Skill Cooldown:</label></div><!--
+            --><div class="form-col-10"><input id="physical_skill_cooldown" [(ngModel)]="equip.physical_skill_cooldown" type="number"></div><!--
+            --><div class="form-col-40"><label for="magical_skill_cooldown">Magical Skill Cooldown:</label></div><!--
+            --><div class="form-col-10"><input id="magical_skill_cooldown" [(ngModel)]="equip.magical_skill_cooldown" type="number"></div>
+        </div>
+    </div>
+    <hr />
+    <div class="form-row">
+        <div class="form-col-40"><label for="hp_max" title="Maximum HP">HP:</label></div><!--
+        --><div class="form-col-10"><input id="hp_max" [(ngModel)]="equip.hp_max" type="number"></div><!--
+        --><div class="form-col-40"><label for="mp_max" title="Maximum MP">MP:</label></div><!--
+        --><div class="form-col-10"><input id="mp_max" [(ngModel)]="equip.mp_max" type="number"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-40"><label for="hp_recovery" title="HP Recovery per Minute">HP Recovery:</label></div><!--
+        --><div class="form-col-10"><input id="hp_recovery" [(ngModel)]="equip.hp_recovery" type="number"></div><!--
+        --><div class="form-col-40"><label for="mp_recovery" title="MP Recovery per Minute">MP Recovery:</label></div><!--
+        --><div class="form-col-10"><input id="mp_recovery" [(ngModel)]="equip.mp_recovery" type="number"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-40"><label for="attack_speed" title="Attack Speed">Attack Speed:</label></div><!--
+        --><div class="form-col-10"><input id="attack_speed" [(ngModel)]="equip.attack_speed" type="number"></div><!--
+        --><div class="form-col-40"><label for="cast_speed" title="Cast Speed">Cast Speed:</label></div><!--
+        --><div class="form-col-10"><input id="cast_speed" [(ngModel)]="equip.cast_speed" type="number"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-40"><label for="move_speed" title="Movement Speed">Move Speed:</label></div><!--
+        --><div class="form-col-10"><input id="move_speed" [(ngModel)]="equip.move_speed" type="number"></div><!--
+        --><div class="form-col-40"><label for="jump_strength" title="Jump Strength">Jump Strength:</label></div><!--
+        --><div class="form-col-10"><input id="jump_strength" [(ngModel)]="equip.jump_strength" type="number"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-40"><label for="evasion" title="Evasion Rate">Evasion Rate:</label></div><!--
+        --><div class="form-col-10"><input id="evasion" [(ngModel)]="equip.evasion" type="number"></div><!--
+        --><div class="form-col-40"><label for="hit_rate" title="Hit Rate Accuracy">Hit Rate:</label></div><!--
+        --><div class="form-col-10"><input id="hit_rate" [(ngModel)]="equip.hit_rate" type="number"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-40"><label for="physical_crit_chance" title="Physical Critical Chance">Physical Critical Chance:</label></div><!--
+        --><div class="form-col-10"><input id="physical_crit_chance" [(ngModel)]="equip.physical_crit_chance" type="number"></div><!--
+        --><div class="form-col-40"><label for="magical_crit_chance" title="Magical Critical Chance">Magical Critical Chance:</label></div><!--
+        --><div class="form-col-10"><input id="magical_crit_chance" [(ngModel)]="equip.magical_crit_chance" type="number"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-40"><label for="hit_recovery" title="Recovery Rate from Enemy Attacks">Hit Recovery:</label></div><!--
+        --><div class="form-col-10"><input id="hit_recovery" [(ngModel)]="equip.hit_recovery" type="number"></div><!--
+        --><div class="form-col-40"><label for="inventory_weight_limit" title="Inventory Maximum Weight Limit">Inventory Weight Limit:</label></div><!--
+        --><div class="form-col-10"><input id="inventory_weight_limit" [(ngModel)]="equip.inventory_weight_limit" type="number"></div>
+    </div>
+    <hr />
+    <div class="form-row">
+        <div class="form-col-20"><label for="inflict_fire" title="Inflict Fire Element Damage">Inflict Fire:</label></div><!--
+        --><div class="form-col-5"><input id="inflict_fire" [(ngModel)]="equip.inflict_fire" type="checkbox"></div><!--
+        --><div class="form-col-20"><label for="inflict_shadow" title="Inflict Shadow Element Damage">Inflict Shadow:</label></div><!--
+        --><div class="form-col-5"><input id="inflict_shadow" [(ngModel)]="equip.inflict_shadow" type="checkbox"></div><!--
+        --><div class="form-col-20"><label for="inflict_water" title="Inflict Water Element Damage">Inflict Water:</label></div><!--
+        --><div class="form-col-5"><input id="inflict_water" [(ngModel)]="equip.inflict_water" type="checkbox"></div><!--
+        --><div class="form-col-20"><label for="inflict_light" title="Inflict Light Element Damage">Inflict Light:</label></div><!--
+        --><div class="form-col-5"><input id="inflict_light" [(ngModel)]="equip.inflict_light" type="checkbox"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-40"><label for="all_element" title="All Elemental Damage">All Elemental Damage:</label></div><!--
+        --><div class="form-col-10"><input id="all_element" [(ngModel)]="equip.all_element" type="number"></div><!--
+        --><div class="form-col-40"><label for="all_resist" title="All Elemental Resist">All Elemental Resist:</label></div><!--
+        --><div class="form-col-10"><input id="all_resist" [(ngModel)]="equip.all_resist" type="number"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-40"><label for="fire_element" title="Fire Elemental Damage">Fire Element:</label></div><!--
+        --><div class="form-col-10"><input id="fire_element" [(ngModel)]="equip.fire_element" type="number"></div><!--
+        --><div class="form-col-40"><label for="fire_resist" title="Fire Element Resist">Fire Resist:</label></div><!--
+        --><div class="form-col-10"><input id="fire_resist" [(ngModel)]="equip.fire_resist" type="number"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-40"><label for="shadow_element" title="Shadow Elemental Damage">Shadow Element:</label></div><!--
+        --><div class="form-col-10"><input id="shadow_element" [(ngModel)]="equip.shadow_element" type="number"></div><!--
+        --><div class="form-col-40"><label for="shadow_resist" title="Shadow Elemental Resist">Shadow Resist:</label></div><!--
+        --><div class="form-col-10"><input id="shadow_resist" [(ngModel)]="equip.shadow_resist" type="number"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-40"><label for="water_element" title="Water Elemental Damage">Water Element:</label></div><!--
+        --><div class="form-col-10"><input id="water_element" [(ngModel)]="equip.water_element" type="number"></div><!--
+        --><div class="form-col-40"><label for="water_resist" title="Water Elemental Resist">Water Resist:</label></div><!--
+        --><div class="form-col-10"><input id="water_resist" [(ngModel)]="equip.water_resist" type="number"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-40"><label for="light_element" title="Light Elemental Damage">Light Element:</label></div><!--
+        --><div class="form-col-10"><input id="light_element" [(ngModel)]="equip.light_element" type="number"></div><!--
+        --><div class="form-col-40"><label for="light_resist" title="Light Elemental Resist">Light Resist:</label></div><!--
+        --><div class="form-col-10"><input id="light_resist" [(ngModel)]="equip.light_resist" type="number"></div>
+    </div>
+    <hr />
+    <div class="form-row">
+        <div class="form-col-40"><label for="skill_attack" title="Skill Attack">Skill Attack:</label></div><!--
+        --><div class="form-col-10"><input id="skill_attack" [(ngModel)]="equip.skill_attack" type="number"></div><!--
+        --><div class="form-col-40"><label for="all_attack" title="All Attack">All Attack:</label></div><!--
+        --><div class="form-col-10"><input id="all_attack" [(ngModel)]="equip.all_attack" type="number"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-40"><label for="smash" title="Additional Damage">Smash:</label></div><!--
+        --><div class="form-col-10"><input id="smash" [(ngModel)]="equip.smash" type="number"></div><!--
+        --><div class="form-col-40"><label for="elenore" title="Bonus Damage">Elenore:</label></div><!--
+        --><div class="form-col-10"><input id="elenore" [(ngModel)]="equip.elenore" type="number"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-40"><label for="critical_damage_smash" title="Critical Damage">Critical Smash:</label></div><!--
+        --><div class="form-col-10"><input id="critical_damage_smash" [(ngModel)]="equip.critical_damage_smash" type="number"></div><!--
+        --><div class="form-col-40"><label for="additional_critical_damage" title="Additional Critical Damage">Critical Elenore:</label></div><!--
+        --><div class="form-col-10"><input id="additional_critical_damage" [(ngModel)]="equip.additional_critical_damage" type="number"></div>
+    </div>
+    <hr />
+    <div class="form-row">
+        <div class="form-col-30"><label for="full_description" title="Full Description">Full Description:</label></div><!--
+        --><div class="form-col-70"><textarea id="full_description" [(ngModel)]="equip.full_description" rows="10" cols="44" wrap="hard">{{equip.full_description}}</textarea></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-30"><label for="flavor_description" title="Flavor Description">Flavor Description:</label></div><!--
+        --><div class="form-col-70"><textarea id="flavor_description" [(ngModel)]="equip.flavor_description" rows="6" cols="44" wrap="hard">{{equip.flavor_description}}</textarea></div>
+    </div>
+    <hr />
+    <div class="form-row">
+        <div class="form-col-40"><label for="weight" title="Weight in Kilograms">Weight:</label></div><!--
+        --><div class="form-col-10"><input id="weight" [(ngModel)]="equip.weight" type="number" min="0"></div><!--
+        --><div class="form-col-40"><label for="durability" title="Durability">Durability:</label></div><!--
+        --><div class="form-col-10"><input id="durability" [(ngModel)]="equip.durability" type="number" min="0"></div>
+    </div>
+    <div class="form-row">
+        <div class="form-col-25"><label for="price" title="Gold Value">Gold Value:</label></div><!--
+        --><div class="form-col-75"><input id="price" [(ngModel)]="equip.price" type="number" min="0"></div>
+    </div>
+    <div class="form-row">
+        <input type="button" value="Save" (click)="save()">
     </div>
 </div>

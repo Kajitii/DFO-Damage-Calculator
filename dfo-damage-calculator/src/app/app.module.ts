@@ -7,11 +7,16 @@ import { ProperCasePipe } from './pipes/proper-case.pipe';
 import { RoundNumberPipe } from './pipes/round-number.pipe';
 import { SignedNumberPipe } from './pipes/signed-number.pipe';
 
-// Components
+// Main Components
+import { AppRootComponent } from './components/app.component';
+import { EquipmentPaneComponent } from './components/equipment-pane/equipment-pane.component';
+
+// Equipment Pane Components
 import { EquipmentEditor } from './components/equipment-pane/equipment-editor.component';
 import { EquipmentLibrary } from './components/equipment-pane/equipment-library.component';
+import { EquipmentLoadout } from './components/equipment-pane/equipment-loadout.component';
 
-// Equipment Preview
+// Equipment Preview Components
 import { WeaponDetails } from './components/equipment-preview/weapon-details.component';
 import { ArmorDetails } from './components/equipment-preview/armor-details.component';
 import { AccessoryDetails } from './components/equipment-preview/accessory-details.component';
@@ -28,6 +33,7 @@ import { EquipmentDetailsVendor } from './components/equipment-preview/equipment
 @NgModule({
   declarations: [
     AccessoryDetails,
+    AppRootComponent,
     ArmorDetails,
     EquipmentDetailsDescription,
     EquipmentDetailsExorcism,
@@ -37,8 +43,10 @@ import { EquipmentDetailsVendor } from './components/equipment-preview/equipment
     EquipmentDetailsSummary,
     EquipmentDetailsTitle,
     EquipmentDetailsVendor,
+    EquipmentPaneComponent,
     EquipmentEditor,
     EquipmentLibrary,
+    EquipmentLoadout,
     ProperCasePipe,
     RoundNumberPipe,
     SignedNumberPipe,
@@ -50,6 +58,6 @@ import { EquipmentDetailsVendor } from './components/equipment-preview/equipment
     FormsModule
   ],
   providers: [],
-  bootstrap: [EquipmentLibrary]
+  bootstrap: [AppRootComponent]
 })
 export class AppModule { }

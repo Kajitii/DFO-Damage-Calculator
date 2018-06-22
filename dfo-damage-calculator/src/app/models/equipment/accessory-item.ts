@@ -20,6 +20,10 @@ export class AccessoryItem extends EquipmentItem {
         return this.subtype1;
     }
 
+    public getEquipmentSlot(): string {
+        return this.subtype1;
+    }
+
     public preferAttackSummary(): boolean {
         return false;
     }

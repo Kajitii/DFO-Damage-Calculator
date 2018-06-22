@@ -1,11 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { Constants } from '../../constants';
+import { Utils } from '../../utils';
+import { EquipmentUtils } from './equipment-utils';
+
 import { EquipmentItem } from '../../models/equipment/equipment-item';
-import { WeaponItem } from '../../models/equipment/weapon-item';
-import { ArmorItem } from '../../models/equipment/armor-item';
-import { AccessoryItem } from '../../models/equipment/accessory-item';
-import { SpecialAccessoryItem } from '../../models/equipment/special-accessory-item';
 
 type EquipmentCategory = DFO_Constants.EquipmentCategory;
 
@@ -16,9 +15,15 @@ type EquipmentCategory = DFO_Constants.EquipmentCategory;
 })
 
 export class EquipmentLibrary implements OnInit {
-    equipmentLibrary: EquipmentItem[] = [];
-    equipment: EquipmentItem;
+    @Output() onCreate: EventEmitter<EquipmentItem> = new EventEmitter<EquipmentItem>();
+    @Output() onEquip: EventEmitter<EquipmentItem> = new EventEmitter<EquipmentItem>();
 
+    equipmentLibrary: EquipmentItem[];
+    equipmentPreview: EquipmentItem;
+    enchantmentLibrary: any;
+    setEffectLibrary: any;
+
+    showNewEquipmentForm: boolean = false;
     equipmentName: string;
     equipmentType: EquipmentCategory;
     equipmentSubtype1: EquipmentCategory;
@@ -29,45 +34,59 @@ export class EquipmentLibrary implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        this.equipment = new WeaponItem(Constants.SAVIOR_ZANBATO);
+        this.loadLibrary();
     }
 
-    onCreate(): void {
-        let equip: object = {
+    private loadLibrary(): void {
+        let equipLib: Array<EquipmentItem> = [];
+        let jsonObj: string = sessionStorage.getItem(Constants.storageNames.EquipmentLibrary);
+        if (jsonObj) {
+          equipLib = JSON.parse(jsonObj);
+        }
+        this.equipmentLibrary = new Array<EquipmentItem>();
+        for (let equip of equipLib) { 
+            this.equipmentLibrary.push(EquipmentUtils.convertInputObjectToEquipment(equip, equip.type));
+        }
+    }
+    private saveLibrary(): void {
+        sessionStorage.setItem(Constants.storageNames.EquipmentLibrary, JSON.stringify(this.equipmentLibrary))
+    }
+
+    private openNewEquipmentForm(): void {
+        this.showNewEquipmentForm = true;
+    }
+    private cancelNewEquipmentForm(): void {
+        this.showNewEquipmentForm = false;
+    }
+
+    private onMajorTypeChange(): void {
+        this.equipmentSubtype1 = null;
+        this.equipmentSubtype2 = null;
+    }
+
+    private onSubtypeOneChange(): void {
+        this.equipmentSubtype2 = null;
+    }
+
+
+    private createNewEquipment(): void {
+        let inputObj: object = {
             name: this.equipmentName,
             type: this.equipmentType.name || this.equipmentType.displayName,
             subtype1: this.equipmentSubtype1.name || this.equipmentSubtype1.displayName || this.equipmentSubtype1,
             subtype2: this.equipmentSubtype2
         };
-        switch (this.equipmentType.name || this.equipmentType.displayName) {
-            case 'Weapon':
-                this.equipment = new WeaponItem(equip);
-                break;
-            case 'Armor':
-                this.equipment = new ArmorItem(equip);
-                break;
-            case 'Accessory':
-                this.equipment = new AccessoryItem(equip);
-                break;
-            case 'Special Accessory':
-                this.equipment = new SpecialAccessoryItem(equip);
-                break;
-            default:
-                this.equipment = new EquipmentItem(equip);
-        }
+        let equipmentType = Constants.equipmentType;
+        let equipment: EquipmentItem = EquipmentUtils.convertInputObjectToEquipment(inputObj, this.equipmentType.name || this.equipmentType.displayName);
+        this.onCreate.emit(equipment);
     }
 
-    onMajorTypeChange(): void {
-        this.equipmentSubtype1 = null;
-        this.equipmentSubtype2 = null;
+    private equipEquipment(equip: EquipmentItem): void {
+        this.onEquip.emit(equip);
     }
 
-    onSubtypeOneChange(): void {
-        this.equipmentSubtype2 = null;
-    }
-
-    onSave(equip: EquipmentItem): void {
-        console.log("Received an event:");
-        console.log(equip);
+    public addEquipment(equip: EquipmentItem): void {
+        this.equipmentLibrary.push(equip);
+        this.saveLibrary();
     }
 }

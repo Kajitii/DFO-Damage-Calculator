@@ -193,6 +193,11 @@ export class EquipmentItem extends BaseStatisticsBlock {
         return null;
     }
 
+    //Reports the equipment slot this equipment belongs to.
+    public getEquipmentSlot(): string {
+        return this.type;
+    }
+
     //Whether attack stats are displayed in the summary, and before defense stats.
     public preferAttackStats(): boolean {
         return this.physical_attack > 0 || this.magical_attack > 0 || this.independent_attack > 0;

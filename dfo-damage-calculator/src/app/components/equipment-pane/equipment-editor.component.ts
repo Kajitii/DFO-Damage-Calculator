@@ -3,6 +3,7 @@ import { EquipmentItem } from '../../models/equipment/equipment-item';
 
 import { Constants } from '../../constants';
 import { Utils } from '../../utils';
+import { EquipmentUtils } from './equipment-utils';
 
 @Component({
     selector: 'equipment-editor',
@@ -24,26 +25,26 @@ export class EquipmentEditor implements OnInit {
     constructor() { }
 
     ngOnInit() {
-
+        
     }
 
-    getClassCategories(): string[] {
+    private getClassCategories(): string[] {
         let classes: string[] = Utils.getEnumNames(Constants.classCategory);
         return classes.map(c => c.humanize());
     }
-    getItemRarities(): string[] {
+    private getItemRarities(): string[] {
         return Utils.getEnumNames(Constants.itemRarity);
     }
-    getAmplificationTypes(): string[] {
+    private getAmplificationTypes(): string[] {
         let types: string[] = Object.keys(Constants.amplification);
         return types;
     }
-    getWeaponSpeeds(): string[] {
+    private getWeaponSpeeds(): string[] {
         let speeds: string[] = Utils.getEnumNames(Constants.weaponSpeed);
         return speeds.map(t => t.humanize());
     }
 
-    onIconChange(event): void {
+    private onIconChange(event): void {
         let fileList: FileList = event.target.files;
         if (fileList.length > 0) {
             let file: File = fileList[0];
@@ -56,7 +57,7 @@ export class EquipmentEditor implements OnInit {
         }
     }
 
-    onRarityChange(value: Constants.itemRarity): void {
+    private onRarityChange(value: Constants.itemRarity): void {
         if (value == Constants.itemRarity.Common || value == Constants.itemRarity.Uncommon) {
             if (!this.ampTypeStored) {
                 this.ampType = this.equip.amplification
@@ -71,15 +72,16 @@ export class EquipmentEditor implements OnInit {
             this.ampTypeStored = false;
         }
     }
-    onLevelChange(): void {
+    private onLevelChange(): void {
         this.equip.exorcism = this.equip.baseExorcism();
     }
 
-    save(): void {
-        this.onSave.emit(this.equip);
+    private save(): void {
+        let equipment:EquipmentItem = EquipmentUtils.convertInputObjectToEquipment(this.equip, this.equip.type);
+        this.onSave.emit(equipment);
     }
 
-    toggleCollapse(event: Event): void {
+    private toggleCollapse(event: Event): void {
         console.log(event);
     }
 }

@@ -27,4 +27,8 @@ export namespace Utils {
         return keys.splice(keys.length / 2);
     }
 
+    export function getEnumLength(obj: object): number {
+        return Object.keys(obj).length / 2;
+    }
+
 }

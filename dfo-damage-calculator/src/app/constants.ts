@@ -101,7 +101,8 @@ export namespace Constants {
         Weapon = 'Weapon',
         Armor = 'Armor',
         Accessory = 'Accessory',
-        SpecialAccessory = 'Special Accessory'
+        SpecialAccessory = 'Special Accessory',
+        Title = 'Title'
     }
 
     // Full definition of character equipment types.
@@ -281,7 +282,7 @@ export namespace Constants {
     export enum equipmentSlot {
         Weapon,
         Top,
-        HeadShoulders,
+        HeadShoulder,
         Bottom,
         Shoes,
         Belt,
@@ -298,6 +299,7 @@ export namespace Constants {
         Hair,
         Hat,
         Face,
+        Torso,
         Top,
         Waist,
         Bottom,
@@ -479,6 +481,10 @@ export namespace Constants {
             armor: [ 0, 1, 2, 3, 5, 7, 9, 12, 14, 16, 20, 40, 60, 80 ],
             accessory: [ 0, 2, 3, 5, 8, 12, 15, 20, 23, 27, 33, 67, 100 ]
         }
+    }
+
+    export const storageNames = {
+        EquipmentLibrary: "EquipmentLibrary"
     }
 
     export const SAVIOR_ZANBATO:object = {

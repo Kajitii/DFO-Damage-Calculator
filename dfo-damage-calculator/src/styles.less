@@ -1,16 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+@import './app/vars';
+
 body {
     font: 13px Arial, sans-serif;
     background-color: #535353;
 }
 
-.container {
-    background-color: white;
-    box-sizing: border-box;
-    display: inline-block;
-    vertical-align: top;
-    height: 98vh;
-    border-right: 1px solid grey;
+.main-container {
+    height: @container-height;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    .container {
+        background-color: white;
+        box-sizing: border-box;
+        display: inline-block;
+        vertical-align: top;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        white-space: normal;
+        border-right: 1px solid grey;
+    }
 }
 
 .clearfix:after {
@@ -23,8 +34,8 @@ body {
 }
 
 .dfo-icon {
-    width: 38px;
-    height: 38px;
+    width: @icon-length;
+    height: @icon-length;
     background-color: grey;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -37,6 +48,7 @@ body {
 
 .line-break { white-space: pre-line; }
 
+.collapse { display: none; }
 .hide { visibility: hidden; }
 
 .shadow-outline {

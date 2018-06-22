@@ -16,4 +16,12 @@ export class SpecialAccessoryItem extends EquipmentItem {
         this.bonus_attack_stats = equip['bonus_attack_stats'] || 0;
     }
 
+    public getType1(): string {
+        return this.subtype1;
+    }
+
+    public getEquipmentSlot(): string {
+        return this.subtype1.replace(' ', '');
+    }
+
 }

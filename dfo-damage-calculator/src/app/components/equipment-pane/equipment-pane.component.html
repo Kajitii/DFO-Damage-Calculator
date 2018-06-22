@@ -1,0 +1,17 @@
+<div id="equipment-main-pane" class="main-container">
+    <div class="container">
+        <equipment-library (onCreate)="onEquipmentCreate($event)" (onEquip)="onEquipmentEquip($event)"></equipment-library>
+    </div><!--
+    --><div class="container">
+        <equipment-editor [equip]="equipment" (onSave)="onEquipmentSave($event)"></equipment-editor>
+    </div><!--
+    --><div class="container">
+        <weapon-details *ngIf="equipment.type === 'Weapon'" [equip]="equipment"></weapon-details>
+        <armor-details *ngIf="equipment.type === 'Armor'" [equip]="equipment"></armor-details>
+        <accessory-details *ngIf="equipment.type === 'Accessory'" [equip]="equipment"></accessory-details>
+        <special-accessory-details *ngIf="equipment.type === 'Special Accessory'" [equip]="equipment"></special-accessory-details>
+    </div><!--
+    --><div class="container">
+        <equipment-loadout></equipment-loadout>
+    </div>
+</div>

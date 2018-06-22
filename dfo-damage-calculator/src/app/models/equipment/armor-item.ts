@@ -24,6 +24,10 @@ export class ArmorItem extends EquipmentItem {
         return this.subtype2;
     }
 
+    public getEquipmentSlot(): string {
+        return this.subtype2.replace('\/', '');
+    }
+
     public preferAttackStats(): boolean {
         return false;
     }
